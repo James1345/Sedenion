@@ -1,0 +1,1 @@
+This project is available under the GNU General Public Lisence V3.0.
