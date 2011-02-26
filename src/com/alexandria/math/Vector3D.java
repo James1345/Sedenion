@@ -1,5 +1,6 @@
 package com.alexandria.math;
 
+//TODO well, everything. Rotations, cross products. so much fun
 public class Vector3D extends Vector {
 	
 	

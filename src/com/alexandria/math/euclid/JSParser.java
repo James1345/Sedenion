@@ -1,10 +1,10 @@
 package com.alexandria.math.euclid;
 
-import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
+//TODO make it work after a slightly nicer fashion...
 /**
  * A <b>MASSIVE</b> cheat. Just running it through java's javascript engine (which has access
  * to all of java's methods provided the correct packages are imported).
@@ -40,7 +40,7 @@ public class JSParser implements com.alexandria.math.euclid.Parser {
 			try {engine.eval(process);} 
 			catch (ScriptException e) {e.printStackTrace();}
 			
-			process = "var " + input.split("\\W")[0] + " = " + "new Matrix(x);";
+			process = "var " + input.split("\\W")[0] + " = " + "new Matrix(x)";
 		}
 		else {
 			process = input;
