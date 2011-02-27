@@ -5,8 +5,8 @@ import java.util.Vector;
 */
 public class Register {
 	
-	private Vector<String> key = new Vector<String>;
-	private Vector<Object> value = new Vector<Object;
+	private Vector<String> key = new Vector<String>();
+	private Vector<Object> value = new Vector<Object>();
 
 	public void let(String var, Object value){
 		key.add(var);
@@ -18,7 +18,7 @@ public class Register {
 	}
 
 	public void set(String var, Object value){
-		value.set(key.indexOf(var), value)
+		this.value.set(key.indexOf(var), value);
 	}
 
 

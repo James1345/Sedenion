@@ -1,0 +1,5 @@
+#!/bin/bash
+javac -d bin -sourcepath src/com/alexandria/euclid/*.java; 
+javac -d bin -sourcepath src/com/alexandria/elements/*.java;
+javac -d bin -sourcepath src/com/alexandria/math/*.java
+
