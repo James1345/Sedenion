@@ -1,4 +1,4 @@
-package com.alexandria.math.euclid;
+package com.alexandria.euclid;
 
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
@@ -14,7 +14,7 @@ import javax.script.ScriptException;
  * @author James
  *
  */
-public class JSParser implements com.alexandria.math.euclid.Parser {
+public class JSParser implements com.alexandria.euclid.Parser {
 	
 	private ScriptEngineManager mgr = new ScriptEngineManager();
     private ScriptEngine engine = mgr.getEngineByName("JavaScript");

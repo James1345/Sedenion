@@ -1,4 +1,4 @@
-package com.alexandria.math.euclid;
+package com.alexandria.euclid;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
