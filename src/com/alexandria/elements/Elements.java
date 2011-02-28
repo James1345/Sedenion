@@ -52,7 +52,7 @@ public class Elements {
 	private String parseOp(String expr){
 		
 		
-		//Addition
+		//+
 		String[] split = null;
 		
 		split = expr.split("\\+", 2);
@@ -60,10 +60,29 @@ public class Elements {
 			System.out.println("addition");
 			return String.valueOf(Double.parseDouble(parse(split[0]))+Double.parseDouble(parse(split[1])));
 		}
+		//-
 		split = expr.split("\\-", 2);
 		if (split.length > 1) {
 			System.out.println("minus");
 			return String.valueOf(Double.parseDouble(parse(split[0]))-Double.parseDouble(parse(split[1])));
+		}
+		//*
+		split = expr.split("\\*", 2);
+		if (split.length > 1) {
+			System.out.println("times");
+			return String.valueOf(Double.parseDouble(parse(split[0]))*Double.parseDouble(parse(split[1])));
+		}
+		// /
+		split = expr.split("\\/", 2);
+		if (split.length > 1) {
+			System.out.println("div");
+			return String.valueOf(Double.parseDouble(parse(split[0]))/Double.parseDouble(parse(split[1])));
+		}
+		//*
+		split = expr.split("\\%", 2);
+		if (split.length > 1) {
+			System.out.println("%");
+			return String.valueOf(Double.parseDouble(parse(split[0]))%Double.parseDouble(parse(split[1])));
 		}
 		return expr;
 	}
