@@ -41,6 +41,9 @@ public class JSParser implements com.alexandria.euclid.Parser {
 			catch (ScriptException e) {e.printStackTrace();}
 			
 			process = "var " + input.split("\\W")[0] + " = " + "new Matrix(x)";
+			try {engine.eval(process);} 
+			catch (ScriptException e) {e.printStackTrace();}
+			process = input.split("\\W")[0];
 		}
 		else {
 			process = input;

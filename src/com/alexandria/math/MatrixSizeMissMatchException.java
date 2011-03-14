@@ -7,6 +7,9 @@ package com.alexandria.math;
  *
  */
 public class MatrixSizeMissMatchException extends Exception {
+	
+	private static final long serialVersionUID = 6799388523538898562L;
+
 	public MatrixSizeMissMatchException(){
 		System.err.print("Matrix sizes incompatible.\n");
 	}

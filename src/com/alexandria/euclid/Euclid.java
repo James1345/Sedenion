@@ -17,6 +17,7 @@ public class Euclid extends REPL {
 	
 	public static void main(String[] args){
 		Euclid main = new Euclid(new JSParser());
+		
 	}
 
 }

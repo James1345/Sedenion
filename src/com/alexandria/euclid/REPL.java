@@ -82,8 +82,8 @@ public class REPL extends JFrame implements KeyListener{
 			//Add input to list of inputs and set previous marker to max
 			inputStr.add(input.getText());
 			
-			outputStr = outputStr + INPUTMARKER + inputStr.lastElement() + "\n" + 
-				OUTPUTMARKER + parser.parse(inputStr.lastElement()) + "\n";
+			outputStr = outputStr + inputStr.lastElement() + "\n" 
+			+ parser.parse(inputStr.lastElement()) + "\n";
 			
 			output.setText(outputStr);
 			input.setText("");

@@ -1,5 +1,7 @@
 package com.alexandria.math;
 
+import java.math.BigDecimal;
+
 /**
  * A class to handle Matrices.
  * 
@@ -7,11 +9,11 @@ package com.alexandria.math;
  * special rules for performing mathematical operations on them. 
  * <br />
  * The matrix is stored as an array of rows. Therefore, coordinates select the <b>row</b> first,
- * then the column. (i.e. (y, x))
+ * then the column.
  * <br />
  * All instance and class methods return a <b>new</b> Matrix, without modifying any parameters
  * or the Matrix on which the method is called. Assigning these returns to a variable (even the 
- * original) must be done explicitly. 
+ * original) must be done explicitly.
  * 
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>
  *
@@ -27,15 +29,15 @@ public class Matrix {
 	/**
 	 * The number of columns
 	 */
-	protected int columns = 0;
+	protected final int columns;
 	/**
 	 * the number of rows
 	 */
-	protected int rows = 0;
+	protected final int rows;
 	/**
 	 * columns == rows
 	 */
-	protected boolean isSquare = false;
+	protected final boolean isSquare;
 	
 	/* Getters */
 	
@@ -394,10 +396,10 @@ public class Matrix {
 	 * for multiplication.
 	 */
 	public Matrix rightMultiply(Matrix m) throws MatrixSizeMissMatchException{
-		if (this.getRows() != m.getColumns())
+		if (this.getColumns() != m.getRows())
 			throw new MatrixSizeMissMatchException();
 		
-		double[][] newContent = new double[this.getColumns()][m.getRows()];
+		double[][] newContent = new double[this.getRows()][m.getColumns()];
 		for (int i = 0; i<this.getRows(); i++){ /*for each row in this */
 			for (int j = 0; j<m.getColumns(); j++){ /* for each column in m */
 				double accumulator = 0;
@@ -500,7 +502,8 @@ public class Matrix {
 		for (double[] row : this.get()){
 			returnString += "( ";
 			for (double num : row){
-				returnString += "" + num + " ";
+				//TODO Sort formatting, possibly will work when replace doubles with BigDecimals
+				returnString += "" + BigDecimal.valueOf(num).setScale(5, BigDecimal.ROUND_HALF_UP) + " ";
 			}
 			returnString += ")\n";
 		}
