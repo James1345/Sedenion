@@ -4,7 +4,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-//TODO make it work after a slightly nicer fashion...
 /**
  * A <b>MASSIVE</b> cheat. Just running it through java's javascript engine (which has access
  * to all of java's methods provided the correct packages are imported).

@@ -1,9 +1,12 @@
-package com.alexandria.math;
+package xAbandoned.math;
 
 import java.math.BigDecimal;
 
+import com.alexandria.math.IllegalMatrixDimensionException;
+import com.alexandria.math.MatrixSizeMissMatchException;
+
 /**
- * A class to handle Matrices.
+ * A class to handle Matrices. Abandoned
  * 
  * This class deals with Matrices. A Matrix is a 2D array of numbers, with
  * special rules for performing mathematical operations on them. 

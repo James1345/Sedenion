@@ -16,6 +16,9 @@ import java.util.Vector;
  */
 public class REPL extends JFrame implements KeyListener{
 
+
+	private static final long serialVersionUID = 2410469638305799759L;
+
 	private JEditorPane output = new JEditorPane();
 	private JTextField input = new JTextField();
 
@@ -44,6 +47,10 @@ public class REPL extends JFrame implements KeyListener{
 		rootPanel.setLayout(new BorderLayout());
 		rootPanel.add(BorderLayout.CENTER, outputPanel);
 		rootPanel.add(BorderLayout.SOUTH, input);
+		
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); // Get the size of the screen
+		this.setLocation((int)(0.2*dim.width), (int)(0.1*dim.height));//set position
 		
 		this.parser = p;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
