@@ -2,6 +2,8 @@
 
 # The parser class. Extends the Ruby programming language with some syntactic sugar specific to Euclid.
 
+include Math
+
 class RParser
 	
 	def parse(s)
