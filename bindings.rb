@@ -45,22 +45,10 @@ class Matrix
 	end
 
 	#Fix array differences between Java and Ruby in constructor
-	def initialize(a, b=nil, c=0)
-		if(a.to_i == a) #if a is an int
-			b = a if !b #set b if not set
-			@content = [][]
-			for row in 0...a
-				for col in 0...b
-					@content[row][col] = c
-				end
-			end
-			@isSquare = (@columns = b) == (@rows = a)
-		elsif(a.class == Array && a[0].class == Array) ##if a is an array of arrays
-			@content = a #quick hack, whole class needs cleaning, see BDMatrix in abandonned for example.
-		else
-			return nil
-		end
+	#Nasty hack, need to sort whole thing out, see xAbbandonned BDMatrix for general style
+	alias :init :initialize unless $@
+	def initialize(a)
+		init(a.to_java(Java::double[])) #Convert 2D array to java array
 	end
 
 end # Of Matrix class
-		
