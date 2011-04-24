@@ -46,9 +46,27 @@ class Matrix
 
 	#Fix array differences between Java and Ruby in constructor
 	#Nasty hack, need to sort whole thing out, see xAbbandonned BDMatrix for general style
-	alias :init :initialize unless $@
-	def initialize(a)
+	alias :init :initialize
+		def initialize(a)
 		init(a.to_java(Java::double[])) #Convert 2D array to java array
 	end
 
 end # Of Matrix class
+
+#TODO write matching java class
+class Complex
+	
+	#alias :+ :add
+	#alias :- :subtract
+	#alias :* :multiply
+	#alias :/ :divide
+
+end
+
+class Fixnum
+#TODO alias methods to be able to work with Complex and Matrix (e.g. *(x))
+
+	def *(x)
+		return x.*(self)
+	end
+end

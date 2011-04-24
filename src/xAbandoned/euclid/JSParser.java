@@ -4,7 +4,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import com.alexandria.euclid.Parser;
 
 /**
  * A <b>MASSIVE</b> cheat. Just running it through java's javascript engine (which has access
