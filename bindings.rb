@@ -1,11 +1,15 @@
 # bindings.rb
 
-# Loads the required java classes. Adds to some of them to add operator overloading and other convinience methods
-# Note additional functionality in this file should be limited to convinience methods, extra functions should be defined in the correct class
+# Loads the required java classes. Adds to some of them to add operator 
+# overloading and other convinience methods
+# Note additional functionality in this file should be limited to 
+# convinience methods, extra functions should be defined in the java for 
+# the correct class
 
-require 'java'
-require './alexandria'
+require 'java' #java
+require './euclid' #euclid maths
 
+#load classes from modules
 Parser = Java::com::alexandria::euclid::Parser
 REPL =  Java::com::alexandria::euclid::REPL
 
@@ -14,7 +18,6 @@ Matrix = Java::com::alexandria::math::Matrix
 Vector2D = Java::com::alexandria::math::Vector2D
 Vector3D = Java::com::alexandria::math::Vector3D
 
-#Matrix class
 class Matrix
 	
 	#fix it to correctly handle syntax errors
@@ -28,10 +31,15 @@ class Matrix
 
 	def -(x)
 		if(x.class == Matrix)
-			return self.subtract(x)
+			return self.minus(x)
 		else
 			return nil
 		end
+	end
+
+	#Unary minus overload
+	def -@()
+		return self - (self * 2) #0 - self in effect, possibly not the quickest way but effective
 	end
 
 	# If x is a matrix, do matrix multiplication
@@ -44,29 +52,42 @@ class Matrix
 		end
 	end
 
+	#make fixnum etc. work
+	def coerce(other)
+		return self, other
+	end
+
 	#Fix array differences between Java and Ruby in constructor
 	#Nasty hack, need to sort whole thing out, see xAbbandonned BDMatrix for general style
 	alias :init :initialize
 		def initialize(a)
 		init(a.to_java(Java::double[])) #Convert 2D array to java array
 	end
+	
+	#make matrix work like array for getting values
+	def [](i)
+		row = []
+		(0...self.columns).each{ |x| row.push(self.getAt(i, x)) } #recreate row as array
+		return row
+	end
 
 end # Of Matrix class
 
-#TODO write matching java class
 class Complex
 	
-	#alias :+ :add
-	#alias :- :subtract
-	#alias :* :multiply
+	alias :+ :add
+	alias :- :subtract
+	alias :* :multiply
 	#alias :/ :divide
-
-end
-
-class Fixnum
-#TODO alias methods to be able to work with Complex and Matrix (e.g. *(x))
-
-	def *(x)
-		return x.*(self)
+	
+	#define unary minus
+	def -@()
+		return self - (self*2)
 	end
-end
+	
+	#make fixnums etc. work
+	def coerce(other)
+		return self, other
+	end
+	
+end #of complex class

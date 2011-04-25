@@ -1,7 +1,5 @@
 package com.alexandria.math;
 
-import java.math.BigDecimal;
-
 /**
  * A class to handle Matrices.
  * 
@@ -22,61 +20,19 @@ public class Matrix {
 	
 	/* Instance Variables. */
 	
-	/**
-	 * The actual values held in the matrix.
-	 */
+	/** The actual values held in the matrix.*/
 	protected double[][] content;
-	/**
-	 * The number of columns
-	 */
-	protected final int columns;
-	/**
-	 * the number of rows
-	 */
-	protected final int rows;
-	/**
-	 * columns == rows
-	 */
-	protected final boolean isSquare;
+	
+	/** The number of columns */
+	public final int columns;
+	
+	/** the number of rows*/
+	public final int rows;
+	
+	/** columns == rows*/
+	public final boolean isSquare;
 	
 	/* Getters */
-	
-	/**
-	 * Returns the matrix.
-	 * 
-	 * @return The matrix, as a 2D array of doubles.
-	 */
-	public double[][] get(){
-		return content;
-	}
-	
-	/**
-	 * Gets a certain row.
-	 * 
-	 * Returns the specified row as an array of doubles.
-	 * 
-	 * @param i the row to be returned
-	 * @return the array containing the row.
-	 */
-	public double[] getRow(int i){
-		return content[i];
-	}
-	
-	/**
-	 * Gets a certain column.
-	 * 
-	 * Returns the specified column as an array of doubles.
-	 * 
-	 * @param j The number of the column (Start At Zero!)
-	 * @return the array containing the column.
-	 */
-	public double[] getColumn(int j){
-		double[] column = new double[columns]; /* set return length to be number of columns */
-		for (int i = 0; i < this.getRows(); i++){ /* for each row */
-			column[i] = content[i][j]; /* add the value in column j of that row */
-		}
-		return column;
-	}
 	
 	/**
 	 * Gets a value at the specified row/column.
@@ -87,35 +43,6 @@ public class Matrix {
 	public double getAt(int row, int column){
 		return content[row][column];
 	}
-	
-	/**
-	 * Returns the number of columns.
-	 * @return the number of columns
-	 */
-	public int getColumns() {
-		return columns;
-	}
-	
-	/**
-	 * Returns the number of rows.
-	 * @return the number of rows
-	 */
-	public int getRows() {
-		return rows;
-	}
-	
-	/**
-	 * Whether the matrix is square or not.
-	 * 
-	 * Returns true if columns == rows.
-	 * Returns false otherwise.
-	 * 
-	 * @return columns == rows
-	 */
-	public boolean isSquare() {
-		return isSquare;
-	}
-	
 	
 	/* Constructors */
 	
@@ -236,7 +163,7 @@ public class Matrix {
 	 */
 	public Matrix h(int rowA, int rowB){
 		Matrix h = this.copy(); /* Deep clone the matrix */
-		double[][] newContent = h.get(); /* copy contents */
+		double[][] newContent = h.content; /* copy contents */
 		double[] temp = newContent[rowA]; /* Temporarily store rowA */
 		newContent[rowA] = newContent[rowB]; /* Swap values */
 		newContent[rowB] = temp;
@@ -253,8 +180,8 @@ public class Matrix {
 	 */
 	public Matrix m(int row, double lambda){
 		Matrix m = this.copy(); /* deep clone matrix */
-		double[][] newContent = m.get(); /* extract array for editing */
-		for (int i = 0; i < m.getColumns(); i++){ /* for each value in the row */
+		double[][] newContent = m.content; /* extract array for editing */
+		for (int i = 0; i < m.columns; i++){ /* for each value in the row */
 			newContent[row][i]*=lambda; /* multiply each value */
 		}
 		return m; /* Return matrix with the row scaled */
@@ -274,8 +201,8 @@ public class Matrix {
 	 */
 	public Matrix f(int rowA, int rowB, double lambda){
 		Matrix f = this.copy();
-		double[][] newContent = f.get(); /* copy contents */
-		for (int i = 0; i < f.getColumns(); i++){ /* for each value in rowA */
+		double[][] newContent = f.content; /* copy contents */
+		for (int i = 0; i < f.columns; i++){ /* for each value in rowA */
 			newContent[rowA][i]+=newContent[rowB][i]*lambda; /* Add the scaled rowB */
 		}
 		return f; /* Return matrix with the columns added */
@@ -341,13 +268,13 @@ public class Matrix {
 	 * @throws MatrixSizeMissMatchException An exception if the two matrices are of different sizes.
 	 */
 	public Matrix add(Matrix m) throws MatrixSizeMissMatchException{
-		if (this.getColumns() != m.getColumns() || this.getRows() != m.getRows())
+		if (this.columns != m.columns || this.rows != m.rows)
 			throw new MatrixSizeMissMatchException();
 		
 		Matrix added = this.copy(); /* deep clone Matrix */
-		double[][] newContent = added.get(); /* Extract contents for editin */
-		for(int i = 0; i < added.getRows(); i++){ /* For each value */
-			for (int j = 0; j < added.getColumns(); j++){
+		double[][] newContent = added.content; /* Extract contents for editin */
+		for(int i = 0; i < added.rows; i++){ /* For each value */
+			for (int j = 0; j < added.columns; j++){
 				newContent[i][j] += m.getAt(i, j); /* Add the corresponding value from m */
 			}
 		}
@@ -364,13 +291,13 @@ public class Matrix {
 	 * @throws MatrixSizeMissMatchException An exception if the two matrices are of different sizes.
 	 */
 	public Matrix minus(Matrix m) throws MatrixSizeMissMatchException{
-		if (this.getColumns() != m.getColumns() || this.getRows() != m.getRows())
+		if (this.columns != m.columns || this.rows != m.rows)
 			throw new MatrixSizeMissMatchException();
 		
 		Matrix minussed = this.copy(); /* deep clone Matrix */
-		double[][] newContent = minussed.get(); /* Extract contents for editing */
-		for(int i = 0; i < minussed.getRows(); i++){ /* For each value */
-			for (int j = 0; j < minussed.getColumns(); j++){
+		double[][] newContent = minussed.content; /* Extract contents for editing */
+		for(int i = 0; i < minussed.rows; i++){ /* For each value */
+			for (int j = 0; j < minussed.columns; j++){
 				newContent[i][j] -= m.getAt(i, j); /* Minus the corresponding value from m */
 			}
 		}
@@ -396,14 +323,14 @@ public class Matrix {
 	 * for multiplication.
 	 */
 	public Matrix rightMultiply(Matrix m) throws MatrixSizeMissMatchException{
-		if (this.getColumns() != m.getRows())
+		if (this.columns != m.rows)
 			throw new MatrixSizeMissMatchException();
 		
-		double[][] newContent = new double[this.getRows()][m.getColumns()];
-		for (int i = 0; i<this.getRows(); i++){ /*for each row in this */
-			for (int j = 0; j<m.getColumns(); j++){ /* for each column in m */
+		double[][] newContent = new double[this.rows][m.columns];
+		for (int i = 0; i<this.rows; i++){ /*for each row in this */
+			for (int j = 0; j<m.columns; j++){ /* for each column in m */
 				double accumulator = 0;
-				for (int marker = 0; marker < this.getColumns(); marker++){ /* for each pair of values */
+				for (int marker = 0; marker < this.columns; marker++){ /* for each pair of values */
 					accumulator += this.getAt(i, marker)*m.getAt(marker, j); /* accumulate total */
 				}
 				newContent[i][j] = accumulator; /* put total in correct new position */
@@ -422,7 +349,7 @@ public class Matrix {
 	 */
 	public Matrix scale(double f){
 		Matrix scaled = this.copy(); /* deep clone Matrix */
-		double[][] newContent = scaled.get(); /* Extract contents for editing */
+		double[][] newContent = scaled.content; /* Extract contents for editing */
 		for (int i = 0; i<scaled.rows; i++){ /*for each row in this */
 			for (int j = 0; j<scaled.columns; j++){ /* for each column in this */
 				newContent[i][j]*=f;
@@ -444,20 +371,20 @@ public class Matrix {
 	 * @throws MatrixSizeMissMatchException If the matrix is not square.
 	 */
 	public double det() throws MatrixSizeMissMatchException{
-		if (!this.isSquare())
+		if (!this.isSquare)
 			throw new MatrixSizeMissMatchException();
 		
 		/* For a 1x1 Matrix */
-		if (this.getColumns() == 1)
+		if (this.columns == 1)
 			return this.getAt(0, 0);
 		
 		/* For a 2x2 matrix */
-		if (this.getColumns() == 2)
+		if (this.columns == 2)
 			return (this.getAt(0, 0)*this.getAt(1, 1)) - (this.getAt(0,1)*this.getAt(1, 0));
 		
 		/* For an nxn Matrix (where n>2) */
 		double acc = 0; /* Create accumulator */
-		for(int j = 0; j < this.getRows(); j++){/* In each column */
+		for(int j = 0; j < this.rows; j++){/* In each column */
 			/* Recursively add or subtract ('chess board') the parts of the determinant */
 			if (j%2 == 0)
 				acc += this.getAt(0, j) * this.sub(0,j).det();
@@ -476,10 +403,10 @@ public class Matrix {
 	 * @return The transposed matrix.
 	 */
 	public Matrix transpose(){
-		double[][] newContent = new double[this.getColumns()][this.getRows()]; /* create new dimensions */
+		double[][] newContent = new double[this.columns][this.rows]; /* create new dimensions */
 		/* Transpose the matrix */
-		for(int i = 0; i < this.getRows(); i++){	
-			for(int j = 0; j < this.getColumns(); j++){
+		for(int i = 0; i < this.rows; i++){	
+			for(int j = 0; j < this.columns; j++){
 				newContent[j][i] = this.getAt(i, j);
 			}
 		}
@@ -499,11 +426,11 @@ public class Matrix {
 	@Override
 	public String toString(){
 		String returnString = "";
-		for (double[] row : this.get()){
+		for (double[] row : this.content){
 			returnString += "( ";
 			for (double num : row){
 				//TODO Sort formatting, possibly will work when replace doubles with BigDecimals
-				returnString += "" + BigDecimal.valueOf(num).setScale(5, BigDecimal.ROUND_HALF_UP) + " ";
+				returnString += "" + num + " ";
 			}
 			returnString += ")\n";
 		}
@@ -522,7 +449,7 @@ public class Matrix {
 	 * @return Matrix clone.
 	 */
 	protected Matrix copy(){
-		double[][] contentA = this.get();
+		double[][] contentA = this.content;
 		double[][] contentB = new double[contentA.length][contentA[0].length];
 		for (int i = 0; i < contentA.length; i++){
 			System.arraycopy(contentA[i], 0, contentB[i], 0, contentA[0].length);
@@ -533,17 +460,17 @@ public class Matrix {
 	
 	/* Currently borked */
 	public boolean equals(Matrix m){
-		if(this.getColumns() != m.getColumns() || this.getRows() != m.getRows()){ /* check size */
+		if(this.columns != m.columns || this.rows != m.rows){ /* check size */
 			return false; 
 		}
-		for (int i = 0; i < this.getColumns(); i++){
-			for (int j =0; j < this.getRows(); j++){
+		for (int i = 0; i < this.columns; i++){
+			for (int j =0; j < this.rows; j++){
 				if (this.getAt(i, j) != 0) return true;
 			}
 		}
 		
 		
-		return true;
+		return false;
 	}
 	
 	/**
@@ -554,21 +481,21 @@ public class Matrix {
 	 * @return The newly formed matrix.
 	 */
 	protected Matrix sub(int row, int column){
-		double[][] newContent = new double[this.getColumns() - 1][this.getRows() - 1]; /* Construct new content */
+		double[][] newContent = new double[this.columns - 1][this.rows - 1]; /* Construct new content */
 		/* Copy correct values */
 		for (int i = 0; i < row; i++){ /* for each row before row */
 			for (int j = 0; j < column; j++){ /* For each column before column */
 				newContent[i][j] = this.getAt(i, j);
 			}
-			for (int j = column + 1; j < this.getRows(); j++){/* For each column After column */
+			for (int j = column + 1; j < this.rows; j++){/* For each column After column */
 				newContent[i][j-1] = this.getAt(i, j);
 			}
 		}
-		for (int i = row + 1; i < this.getColumns(); i++){ /* for each row after row */
+		for (int i = row + 1; i < this.columns; i++){ /* for each row after row */
 			for (int j = 0; j < column; j++){ /* For each column before column */
 				newContent[i-1][j] = this.getAt(i, j);
 			}
-			for (int j = column + 1; j < this.getRows(); j++){/* For each column After column */
+			for (int j = column + 1; j < this.rows; j++){/* For each column After column */
 				newContent[i-1][j-1] = this.getAt(i, j);
 			}
 		}

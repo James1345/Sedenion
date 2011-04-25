@@ -48,7 +48,7 @@ public abstract class Vector extends Matrix {
 		double acc = 0.0; //create accumulator
 		
 		//Pythagoras' theorem
-		for(double[] row : this.get()){
+		for(double[] row : content){
 			for (double val : row){
 				acc += Math.pow(val, 2);
 			}
@@ -74,7 +74,7 @@ public abstract class Vector extends Matrix {
 		
 		double acc = 0.0; //create accumulator
 		for (int i = 0; i < this.rows; i++){
-			acc += this.getRow(i)[0]*v.getRow(i)[0];
+			acc += this.getAt(i, 0)*v.getAt(i, 0);
 		}
 		return acc;
 	}

@@ -2,11 +2,9 @@ This project is available under the GNU General Public Lisence V3.0.
 
 This project uses libraries from the jruby project
 
-To install, download all files, and place them all in the same folder.
+extract all files to a folder
 
-start a command prompt/console/terminal
-
-cd to the folder with the files
+cd to the folder
 
 run the following command:
-	java -jar alexandria.jar
+	java -jar euclid.jar

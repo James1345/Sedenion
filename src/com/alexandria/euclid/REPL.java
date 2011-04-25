@@ -19,7 +19,7 @@ public class REPL extends JFrame implements KeyListener{
 
 	private static final long serialVersionUID = 2410469638305799759L;
 
-	private JEditorPane output = new JEditorPane();
+	private OutputPane output = new OutputPane();
 	private JTextField input = new JTextField();
 
 	private JScrollPane outputPanel = new JScrollPane(output);
@@ -38,7 +38,6 @@ public class REPL extends JFrame implements KeyListener{
 	
 	public REPL(Parser p){
 		
-		output.setEditable(false);
 		input.addKeyListener(this);
 		
 		outputPanel.setPreferredSize(new Dimension(300, 300));
@@ -60,8 +59,6 @@ public class REPL extends JFrame implements KeyListener{
 		this.setVisible(true);
 
 	}
-	
-
 		
 
 	@Override
