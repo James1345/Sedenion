@@ -1,6 +1,24 @@
-This project is available under the GNU General Public Lisence V3.0.
+Euclid/Alexandria are copyright (c) 2011 James McMahon, and are released under
+the GNU General Public Lisence version 3.0. You may use it, redistribute it, and/or modify
+it under the terbs of this licence. See COPYING.txt
 
-This project uses libraries from the jruby project
+This project uses libraries from the jruby project, see JRUBY_COPYING.txt for 
+relevent copyright/licences, or http://www.jruby.org/ for more information (including source code)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+==========Running Euclid==========
 
 extract all files to a folder
 
