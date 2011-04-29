@@ -8,7 +8,7 @@ package com.alexandria.math;
  * that point).
  * <br />
  * It is represented as a Matrix with only one column and as many rows as the 
- * Cartesian space has dimensions (normally 2 or 3). As such Standard matrix
+ * Cartesian space has dimensions (normally 2 or 3). As such standard matrix
  * methods may be applied (multiplying by or adding specific matrices can represent
  * transformations (rotations, enlargements, translations)) as well as methods
  * specific to Vectors. (This does however leave it as a 2D array, so it is often useful to
@@ -25,15 +25,30 @@ package com.alexandria.math;
 public abstract class Vector extends Matrix {
 	
 	/**
-	 * Default Constructor.
+	 * Vector Constructor
 	 * 
-	 * Creates a new Vector with the given number of rows filled with the given value.
+	 * Constructs a 0 vector with the given number of dimensions.
+	 * <br />
 	 * 
-	 * @param dimensions The number of rows the Vector has
-	 * @param value The value to fill the Vector with.
+	 * @param d the number of dimensions to give the vector
+	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy
 	 */
-	public Vector(int dimensions, double value){
-		super(dimensions, 1, value);
+	public Vector(int dimensions) throws IllegalMatrixDimensionException {
+		super(makeConstructorArray(dimensions));
+	}
+	
+	/**
+	 * creates the array needed for calling the superclass' constructor
+	 * 
+	 * @param dimensions The number of rows for the array
+	 * @return an array that can be used as the arguments in the constructor for {@link #Matrix}
+	 */
+	private static double[][] makeConstructorArray(int dimensions){
+		double[][] ret = new double[dimensions][1];
+		for(int i = 0; i < dimensions; i++){
+			ret[i][0] = 0;
+		}
+		return ret;
 	}
 	
 	/**
@@ -88,7 +103,7 @@ public abstract class Vector extends Matrix {
 	 * <br />
 	 * Although this calculation can be performed on vectors with an arbitrary number of
 	 * dimensions, interpreting the 'angle' between two vectors with 4 or more dimensions
-	 * is left as an exersise for the reader.
+	 * is left as an exercise for the reader.
 	 * @param v the vector for which the angle with this is to be calculated
 	 * @return The (acute) angle between the two vectors, in <i>Radians</i>
 	 * @throws ArrayIndexOutOfBoundsException if the vectors are of different dimensions

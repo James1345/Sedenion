@@ -1,5 +1,6 @@
 package com.alexandria.math;
 
+
 /**
  * A class to handle complex numbers.
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>

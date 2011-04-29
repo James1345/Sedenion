@@ -15,27 +15,15 @@ REPL =  Java::com::alexandria::euclid::REPL
 
 Complex = Java::com::alexandria::math::Complex
 Matrix = Java::com::alexandria::math::Matrix
+Vector = Java::com::alexandria::math::Vector
 Vector2D = Java::com::alexandria::math::Vector2D
 Vector3D = Java::com::alexandria::math::Vector3D
 
 class Matrix
 	
-	#fix it to correctly handle syntax errors
-	def +(x)
-		if(x.class == Matrix)
-			return self.add(x)
-		else
-			return nil
-		end
-	end
-
-	def -(x)
-		if(x.class == Matrix)
-			return self.minus(x)
-		else
-			return nil
-		end
-	end
+	#Addition and subtraction
+	alias :+ :add
+	alias :- :subtract
 
 	#Unary minus overload
 	def -@()
@@ -72,6 +60,7 @@ class Matrix
 	end
 
 end # Of Matrix class
+
 
 class Complex
 	

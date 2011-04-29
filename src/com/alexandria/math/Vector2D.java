@@ -2,10 +2,30 @@ package com.alexandria.math;
 
 /**
  * A class to handle 2-dimensional vectors (i.e. vectors in the x,y plane).
+ * 
+ * Vectors are a subclass of Matrix. As such, they may either be used as either Vectors or Matrices
+ * (as explained in the {@link Vector} class). <br />
+ * Vector2D stores both the Cartesian (x, y) and Polar (r, theta) representations of a Vector, which are
+ * calculated at creation. It stores them in both the content[][] array (as defined by {@link Matrix}) and
+ * also as its own public final instance variables (x, y, r and theta).
+ * 
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>
  *
  */
 public class Vector2D extends Vector {
+	
+	/* Instance vars */
+	/** The x component of this Vector */
+	public final double x;
+	
+	/** The y component of this vector */
+	public final double y;
+	
+	/**The magnitude (size) of this vector */
+	public final double r;
+	
+	/** The argument (angle) of this vector, measured anticlockwise from the positive x axis */
+	public final double theta;
 	
 	/* Constructor */
 	
@@ -16,29 +36,18 @@ public class Vector2D extends Vector {
 	 * 
 	 * @param x The x value of the vector
 	 * @param y The y value of the vector
+	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector2D(double x, double y) {
-		super(2, 0); //create Vector of correct dimensions
-		this.content[0][0] = x;
-		this.content[1][0] = y;
+	public Vector2D(double x, double y) throws IllegalMatrixDimensionException {
+		super(2); //create Vector of correct dimensions
+		//set x and y
+		this.content[0][0] = this.x = x;
+		this.content[1][0] = this.y = y;
+		this.r = this.magnitude();
+		this.theta = Math.atan2(y, x);
 	}
 	
-	/*Getters*/
-	/**
-	 * Quick Method to get x value of Vector.
-	 * @return The x value.
-	 */
-	public double x(){
-		return this.content[0][0];
-	}
 	
-	/**
-	 * Quick Method to get y value of Vector.
-	 * @return The y value.
-	 */
-	public double y(){
-		return this.content[1][0];
-	}
 	
 	/*Class Methods*/
 	
@@ -53,29 +62,18 @@ public class Vector2D extends Vector {
 	 */
 	public static Matrix rotational(double angle){
 		double[][] content = {{Math.cos(angle), -Math.sin(angle)},{Math.sin(angle), Math.cos(angle)}};
-		return new Matrix(content);
+		
+		Matrix ret = null;
+		try {
+			ret = new Matrix(content);
+		} catch (IllegalMatrixDimensionException e) {
+			//unreachable, content is well formed.
+		}
+		return ret;
 	}
 	
 	/*Instance Methods*/
 	
-	/**
-	 * Calculates the polar representation of The vector.
-	 * 
-	 * This method returns an array [r, t]; where r is the magnitude of the vector and t is
-	 * the argument (in <i>Radians</i>).
-	 * <br />
-	 * The Polar representation of a vector uses the length (magnitude) of the vector, and the 
-	 * angle (argument) to the positive x axis to uniquely describe the position of the vector,
-	 * rather than x,y positions. The two representations are equivalent, and useful for different purposes.
-	 * 
-	 * @return The (r, t) Polar coordinates of the vector
-	 */
-	public double[] toPolar(){
-		double r = this.magnitude();
-		double t = Math.atan2(this.content[1][0], this.content[0][0]);
-		double[] rt = {r,t};
-		return rt;
-	}
 	
 	/**
 	 * Rotates a Vector.
@@ -92,7 +90,11 @@ public class Vector2D extends Vector {
 	 * @return The rotated vector.
 	 */
 	public Vector2D rotate(double angle){
-		Vector2D rotated = new Vector2D(0,0); //create new return vector
+		//create new return vector
+		Vector2D rotated = null;
+		try { 
+			rotated = new Vector2D(0,0);
+		} catch (IllegalMatrixDimensionException e) {/* unreachable block */} 
 		/*
 		 * Multiply by rotation matrix.
 		 * Done by hand. More efficient than actually constructing the rotation

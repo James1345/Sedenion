@@ -16,11 +16,11 @@ package com.alexandria.math;
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>
  *
  */
-public class Matrix {
+public class Matrix implements Cloneable{
 	
 	/* Instance Variables. */
 	
-	/** The actual values held in the matrix.*/
+	/** The actual values held in the matrix, use {@link #getAt(int, int)} to access.*/
 	protected double[][] content;
 	
 	/** The number of columns */
@@ -44,87 +44,41 @@ public class Matrix {
 		return content[row][column];
 	}
 	
-	/* Constructors */
 	
 	/**
-	 * Default constructor.
-	 * 
-	 * Constructs a new Matrix with the specified number of columns and rows;
-	 * filled with the value given.
-	 * 
-	 * @param columns The number of columns
-	 * @param rows The number of rows
-	 * @param value the value to fill the matrix with.
-	 */
-	public Matrix(int rows, int columns, double value){
-		content = new double[rows][columns];
-		for (int i = 0; i < rows; i++){
-			for (int j = 0; j < columns; j++){
-				content[i][j] = value;
-			}
-		}
-		this.isSquare = (this.columns = columns) == (this.rows = rows); /*set instance variables */
-	}
-	
-	/**
-	 * Zero Constructor.
-	 * 
-	 * Constructs a new Matrix with the given number of columns and rows,
-	 * and fills it with 0
-	 * 
-	 * Works by calling {@link #Matrix(int, int, double 0)}
-	 * 
-	 * @param columns Number of columns
-	 * @param rows Number of rows.
-	 */
-	public Matrix(int columns, int rows){
-		this(columns, rows, 0);
-	}
-	
-	/**
-	 * Identity Constructor.
-	 * 
-	 * Constructs a new, square matrix, for which the values are {
-	 * <br />1 for row == column;
-	 * <br />0 otherwise;
-	 * <br />}
-	 * 
-	 * <p />Multiplying by this matrix will not change the original.
-	 * This Method works by calling {@link #Matrix(int size, int size, double 0)}, then
-	 * iterating to place the 1s
-	 * 
-	 * @param size
-	 */
-	public Matrix(int size){
-		this(size, size, 0);
-		for(int i =0; i < size; i++){
-			content[i][i] = 1;
-		}
-	}
-	
-	/**
-	 * Values Constructor.
+	 * Constructor.
 	 * 
 	 * Constructs a new Matrix from the given 2-dimensional array.
-	 * <br />The array to be constructed from may be counter-intuitive. All 2d arrays
-	 * in java are formed by creating an array of arrays. in this case, the innermost arrays
-	 * will represent the <b>rows</b>, and the overall array will be an array of rows (
-	 * thought these will be typed horizontally, hence giving an opportunity for confusion.)
-	 * <br />
-	 * Note that the array is assigned directly to the matrix. Any later changes to the array, 
-	 * therefore, will also affect the matrix.
 	 * 
-	 * NOTE: CURRENTLY NO CHECK TO MAKE SURE MATRIX IS RECTANGULAR. It is possible to make oddly
-	 * dimensioned matrices (i.e. different rows are different lengths), which may well break 
-	 * other methods if you do.
+	 * Content is copied by value so later changes to the array will not affect the Matrix
 	 * 
 	 * @param content The array to be converted into a Matrix.
 	 */
-	public Matrix(double[][] content){
-		this.content = content;
+	public Matrix(double[][] content) throws IllegalMatrixDimensionException {
 		this.isSquare = (this.columns = content[0].length) == (this.rows = content.length); /*set instance variables */
+		this.content = new double[rows][columns];
+		//copy values and check length is correct (Exception thrown if incorrect
+		try{
+			for(int i = 0; i < rows; i++){
+				for(int j = 0; j < columns; j++){
+					this.content[i][j] = content[i][j];
+				}
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			throw new IllegalMatrixDimensionException();
+		}
 	}
-	//TODO Fix this, opportunity for dodgy matrices. (e.g. [[2,3],[3]] would work for construction)
+	
+	
+	public Matrix(int dimensions){
+		double[][] array = new double[dimensions][1]; //new array with dimensions rows and 1 column
+		for(double[] row : array)
+			row[0] = 0;//initialize values
+		this.rows = dimensions;
+		this.columns = 1;
+		this.isSquare = (rows == 1);
+		this.content = array;
+	}
 	
 	/* Class Methods */
 	
@@ -139,18 +93,38 @@ public class Matrix {
 	 *  @param rowA The first row to be swapped.
 	 *  @param rowB The second row to be swapped.
 	 */
-	public static Matrix H(int size, int rowA, int rowB){
-		return new Matrix(size).h(rowA, rowB);
+	public static Matrix h(int size, int rowA, int rowB){
+		double[][] h = new double[size][size];
+		//construct identity matrix
+		for(int i = 0; i < size; i++){
+			for(int j = 0; j < size; j++){
+				h[i][j] = i==j ? 1 : 0 ;
+			}
+		}
+		
+		//swap rows
+		double[] swap = h[rowA];
+		h[rowA] = h[rowB];
+		h[rowB] = swap;
+		
+		//shut compiler up about error that can never be thrown/
+		Matrix ret = null;
+		try {
+			ret = new Matrix(h);
+		} catch (IllegalMatrixDimensionException e) {
+			/* Not possible to encounter */
+		}
+		return ret;
 	}
 	
 	//TODO javadoc
 	public static Matrix M(int size, int row, double lambda){
-		return new Matrix(size).m(row, lambda);
+		return null;
 	}
 	
 	//TODO javadoc
 	public static Matrix F(int size, int rowA, int rowB, double lambda){
-		return new Matrix(size).f(rowA, rowB, lambda);
+		return null;
 	}
 	
 	/* Row operations */
@@ -162,7 +136,7 @@ public class Matrix {
 	 * @return A matrix with rows A and B swapped.
 	 */
 	public Matrix h(int rowA, int rowB){
-		Matrix h = this.copy(); /* Deep clone the matrix */
+		Matrix h = this.clone(); /* Deep clone the matrix */
 		double[][] newContent = h.content; /* copy contents */
 		double[] temp = newContent[rowA]; /* Temporarily store rowA */
 		newContent[rowA] = newContent[rowB]; /* Swap values */
@@ -179,7 +153,7 @@ public class Matrix {
 	 * @return The new Matrix with the row scaled
 	 */
 	public Matrix m(int row, double lambda){
-		Matrix m = this.copy(); /* deep clone matrix */
+		Matrix m = this.clone(); /* deep clone matrix */
 		double[][] newContent = m.content; /* extract array for editing */
 		for (int i = 0; i < m.columns; i++){ /* for each value in the row */
 			newContent[row][i]*=lambda; /* multiply each value */
@@ -200,7 +174,7 @@ public class Matrix {
 	 * @return A new matrix, with the columns changed appropriately.
 	 */
 	public Matrix f(int rowA, int rowB, double lambda){
-		Matrix f = this.copy();
+		Matrix f = this.clone();
 		double[][] newContent = f.content; /* copy contents */
 		for (int i = 0; i < f.columns; i++){ /* for each value in rowA */
 			newContent[rowA][i]+=newContent[rowB][i]*lambda; /* Add the scaled rowB */
@@ -271,7 +245,7 @@ public class Matrix {
 		if (this.columns != m.columns || this.rows != m.rows)
 			throw new MatrixSizeMissMatchException();
 		
-		Matrix added = this.copy(); /* deep clone Matrix */
+		Matrix added = this.clone(); /* deep clone Matrix */
 		double[][] newContent = added.content; /* Extract contents for editin */
 		for(int i = 0; i < added.rows; i++){ /* For each value */
 			for (int j = 0; j < added.columns; j++){
@@ -290,11 +264,11 @@ public class Matrix {
 	 * @param m The matrix to subtract from this.
 	 * @throws MatrixSizeMissMatchException An exception if the two matrices are of different sizes.
 	 */
-	public Matrix minus(Matrix m) throws MatrixSizeMissMatchException{
+	public Matrix subtract(Matrix m) throws MatrixSizeMissMatchException{
 		if (this.columns != m.columns || this.rows != m.rows)
 			throw new MatrixSizeMissMatchException();
 		
-		Matrix minussed = this.copy(); /* deep clone Matrix */
+		Matrix minussed = this.clone(); /* deep clone Matrix */
 		double[][] newContent = minussed.content; /* Extract contents for editing */
 		for(int i = 0; i < minussed.rows; i++){ /* For each value */
 			for (int j = 0; j < minussed.columns; j++){
@@ -336,7 +310,13 @@ public class Matrix {
 				newContent[i][j] = accumulator; /* put total in correct new position */
 			}
 		}
-		return new Matrix(newContent);
+		Matrix ret = null;
+		try {
+			ret = new Matrix(newContent);
+		} catch (IllegalMatrixDimensionException e) {
+			//cannot be encountered (as given matrix must be well formed)
+		}
+		return ret;
 	}
 	
 	/**
@@ -348,14 +328,20 @@ public class Matrix {
 	 * @return The new, scaled matrix.
 	 */
 	public Matrix scale(double f){
-		Matrix scaled = this.copy(); /* deep clone Matrix */
+		Matrix scaled = this.clone(); /* deep clone Matrix */
 		double[][] newContent = scaled.content; /* Extract contents for editing */
 		for (int i = 0; i<scaled.rows; i++){ /*for each row in this */
 			for (int j = 0; j<scaled.columns; j++){ /* for each column in this */
 				newContent[i][j]*=f;
 			}
 		}
-		return new Matrix(newContent);
+		Matrix ret = null;
+		try {
+			ret = new Matrix(newContent);
+		} catch (IllegalMatrixDimensionException e) {
+			//cannot be encountered (as given matrix must be well formed)
+		}
+		return ret;
 	}
 	
 	//TODO Make det use LU matrix reduction http://en.wikipedia.org/wiki/LU_decomposition
@@ -410,7 +396,13 @@ public class Matrix {
 				newContent[j][i] = this.getAt(i, j);
 			}
 		}
-		return new Matrix(newContent);
+		Matrix ret = null;
+		try {
+			ret = new Matrix(newContent);
+		} catch (IllegalMatrixDimensionException e) {
+			//cannot be encountered (as given matrix must be well formed)
+		}
+		return ret;
 		
 	}
 	
@@ -429,8 +421,7 @@ public class Matrix {
 		for (double[] row : this.content){
 			returnString += "( ";
 			for (double num : row){
-				//TODO Sort formatting, possibly will work when replace doubles with BigDecimals
-				returnString += "" + num + " ";
+				returnString += String.format("%f", num);
 			}
 			returnString += ")\n";
 		}
@@ -448,13 +439,20 @@ public class Matrix {
 	 * 
 	 * @return Matrix clone.
 	 */
-	protected Matrix copy(){
+	@Override
+	protected Matrix clone(){
 		double[][] contentA = this.content;
 		double[][] contentB = new double[contentA.length][contentA[0].length];
 		for (int i = 0; i < contentA.length; i++){
 			System.arraycopy(contentA[i], 0, contentB[i], 0, contentA[0].length);
 		}
-		return new Matrix(contentB);
+		Matrix ret = null;
+		try {
+			ret = new Matrix(contentB);
+		} catch (IllegalMatrixDimensionException e) {
+			//cannot be encountered (as given matrix must be well formed)
+		}
+		return ret;
 	}
 	
 	
@@ -500,7 +498,13 @@ public class Matrix {
 			}
 		}
 		
-		return new Matrix(newContent);
+		Matrix ret = null;
+		try {
+			ret = new Matrix(newContent);
+		} catch (IllegalMatrixDimensionException e) {
+			//cannot be encountered (as given matrix must be well formed)
+		}
+		return ret;
 	}
 }
 
