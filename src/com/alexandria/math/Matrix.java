@@ -421,7 +421,7 @@ public class Matrix implements Cloneable{
 		for (double[] row : this.content){
 			returnString += "( ";
 			for (double num : row){
-				returnString += String.format("%f", num);
+				returnString += String.format("%5.2e ", num);
 			}
 			returnString += ")\n";
 		}
