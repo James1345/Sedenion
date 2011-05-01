@@ -31,15 +31,8 @@ class Runtime
 		#buggy/ambiguous, needs cleaning
 		if s =~ /\[\[.+\]\]/ #Matrix niceness
 				m = (s=~/\[\[/)
-				m_ = (s=~/\]\]/)
+				m_ = (s=~/\]\]/) + 2
 				s[m, m_] = "Matrix.new(" + s[m, m_] + ")"
-		end
-		
-		#really buggy/hackish
-		if s =~ /\<.+\>/ #vector stuff
-			v = (s=~/\</)
-			v_ = (s=~/\>/)
-			s[v, v_] = "Vector2D.new(" + s[v+1, v_-2] + ")"
 		end
 		
 		return (eval(s)).to_s

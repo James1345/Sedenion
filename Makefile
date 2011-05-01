@@ -1,10 +1,25 @@
-all: math euclid Euclid.class
+# Compile all java and create jar
+all: math euclid
+	jar cf euclid.jar bin/com/alexandria/math/*.class bin/com/alexandria/euclid/*.class
 
-math:
+# compile complex seperately as it gets missed by the compiler
+math: Complex.class
 	javac -d bin -sourcepath src/com/alexandria/math/*.java
 
-euclid: 
+# compile Euclid seperately as it gets missed by the compiler
+euclid: Euclid.class
 	javac -d bin -sourcepath src/com/alexandria/euclid/*.java
 
 Euclid.class:
-	javac -verbose -d bin -classpath /opt/jruby/lib/jruby.jar src/com/alexandria/euclid/Euclid.java
+	javac -d bin -classpath /opt/jruby/lib/jruby.jar src/com/alexandria/euclid/Euclid.java
+
+Complex.class:
+	javac -d bin src/com/alexandria/math/Complex.java
+
+# Clean and Compile
+refresh: clean all
+
+#Remove compiled files
+clean:
+	rm -rf bin
+	mkdir bin

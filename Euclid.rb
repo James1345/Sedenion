@@ -7,4 +7,4 @@ require 'Runtime.rb' #load Parser
 
 #create GUI
 $euclid = REPL.new(Runtime.new());
-$euclid.setTitle("Euclid");
+$euclid.setTitle("Euclid")
