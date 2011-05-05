@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * A class to handle Matrices.

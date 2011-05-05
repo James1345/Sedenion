@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * This class represents a function of a function.

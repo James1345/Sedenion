@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * An error thrown when an operation is attempted on two Matrices when the sizes of the two

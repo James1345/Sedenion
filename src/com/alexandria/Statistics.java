@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 //TODO more stats... boring though they are.
 //TODO consider using R to provide statistics

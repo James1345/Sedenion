@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * A class to handle 2-dimensional vectors (i.e. vectors in the x,y plane).

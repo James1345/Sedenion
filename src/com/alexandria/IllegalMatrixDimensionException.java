@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 /**
  * Thrown if a user attempts to construct a class with an incorrectly dimensioned array.
  * @author James

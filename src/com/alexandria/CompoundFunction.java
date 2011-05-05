@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * This class represents a collection of functions that are added together to return a result.

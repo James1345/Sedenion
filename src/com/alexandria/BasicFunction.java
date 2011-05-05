@@ -1,4 +1,4 @@
-package com.alexandria.math;
+package com.alexandria;
 
 /**
  * This class represents the lowest level functions that can be applied to a variable x.
