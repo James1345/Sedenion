@@ -1,9 +1,9 @@
 # Compile all java and create jar
-all: math euclid
+all: alexandria euclid
 	jar cf euclid.jar bin/com/alexandria/math/*.class bin/com/alexandria/euclid/*.class
 
 # compile complex seperately as it gets missed by the compiler
-math: Complex.class
+alexandria: Complex.class
 	javac -d bin -sourcepath src/com/alexandria/math/*.java
 
 # compile Euclid seperately as it gets missed by the compiler
