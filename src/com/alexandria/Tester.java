@@ -17,14 +17,14 @@ public class Tester {
 	public static void main(String[] args) {
 		
 		
-		BasicFunction y = new BasicFunction(BasicFunction.Type.MULTIPLY, 1);
-		Plot2D plot = new Plot2D(y, 0, 700);
+		BasicFunction y = new BasicFunction(BasicFunction.Type.SIN);
+		Plot2D plot = new Plot2D(y, -15, 15);
+		
 		JFrame test = new JFrame();
 		test.setContentPane(plot);
 		test.pack();
 		test.setVisible(true);
 		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		test.setSize(new Dimension(700, 700));
 
 	}
 

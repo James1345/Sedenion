@@ -14,24 +14,50 @@ import javax.swing.JPanel;
  */
 public class Plot2D extends JPanel {
 
-	private double xMax = 0, xMin = 0, yMax = 0, yMin = 0;
-	private int xRes = 0, yRes = 0;
-	private Color bgColor = Color.WHITE;
-	private Color axisColor = Color.BLACK;
-	private Color plotColor = Color.RED;
-	private BasicFunction fx = null;
-	private double[] y = null;
+	private final static Color bgColor = Color.WHITE;
+	private final static Color axisColor = Color.BLACK;
+	private final static Color plotColor = Color.RED;
 	
-	public Plot2D( BasicFunction fx, double xMin, double xMax){
+	//integer representations of position of points
+	private int[] xVals, yVals;
+	
+	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 
 		
-		//time for magic numbers
-		int res = 700;
-		double xStep = (xMax - xMin)/res;
-		y = new double[700];
-		for(int i = 0; i< res; i++){
+		//assume resolution is 300px x 300px
+		final int px = 300;
+		
+		//assume scale is 10px = 1 unit
+		double unitsPerPixel = 0.1;
+		
+		//calculate x step
+		double xStep = (xMax-xMin)/px;
+		
+		//calculate y values
+		double[] y = new double[px];
+		for(int i = 0; i< px; i++){
 			y[i] = fx.eval(xMin + i*xStep);
 		}
 		
+		/*
+		 * calculate plot points
+		 * 
+		 * Calculate double (actual) value
+		 * divide by scale
+		 * invert y axis
+		 * shift by origin offset
+		 * 
+		 * cast to int.
+		 */
+		//currently assumes origin is at the centre of the screen
+		xVals = new int[px];
+		yVals = new int[px];
+		for (int i = 0; i < px; i++){
+			xVals[i] = (int)(((xMin + i*xStep)/unitsPerPixel) + (px/2)); 
+			yVals[i] = (int)(-1*(y[i]/unitsPerPixel) + (px/2));
+		}
+		
+		//set up gui
+		this.setPreferredSize(new Dimension(px, px));
 		
 	}
 	
@@ -39,9 +65,9 @@ public class Plot2D extends JPanel {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(plotColor);
-		for(int i = 0; i < 699; i++){
-			g2.drawLine(i, (int)y[i], i+1, (int)y[i+1]);
+		g2.setColor(plotColor); //set colour
+		for(int i = 0; i < 299; i++){
+			g2.drawLine(xVals[i], yVals[i], xVals[i+1], yVals[i+1]); //connect the dots
 		}
 		
 	}
