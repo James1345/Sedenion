@@ -1,7 +1,7 @@
 package com.alexandria;
 
 /**
- * This class represents a collection of functions that are added together to return a result.
+ * This class represents a pair of functions that are added or multiplied together to return a result.
  * (e.g. a polynomial). As it takes {@link BasicFunction} parameters, these may be child classes of
  * {@link BasicFunction}.
  * <br />
@@ -12,20 +12,33 @@ package com.alexandria;
  */
 public class CompoundFunction extends BasicFunction {
 
-	protected BasicFunction[] funcs;
+	protected BasicFunction funcOne;
+	protected BasicFunction funcTwo;
+	protected Type type;
 	
-	public CompoundFunction(BasicFunction[] f){
+	public static enum Type{
+		SUM, PRODUCT
+	}
+	
+	public CompoundFunction(BasicFunction f1, BasicFunction f2, Type t){
 		super(BasicFunction.Type.CONST, 1); //for the compiler, won't be used in eval anyway.
-		this.funcs = f;
+		this.funcOne = f1;
+		this.funcTwo = f2;
+		this.type = t;
 	}
 	
 	@Override
 	public double eval(double x){
-		double accumulator = 0.0;
-		for(BasicFunction f : funcs){
-			accumulator += f.eval(x);
+		double ret = 0.0;
+		if(type == Type.SUM){
+			ret = funcOne.eval(x) + funcTwo.eval(x);
+		}else if (type == Type.PRODUCT){
+			ret = funcOne.eval(x) * funcTwo.eval(x);
+		}else{
+			//there has been a serious error :/
+			ret = Math.tan(0); //Make it obvious(ish) there's an error
 		}
-		return accumulator;
+		return ret;
 	}
 
 }

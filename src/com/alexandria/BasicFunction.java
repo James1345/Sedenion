@@ -39,7 +39,7 @@ package com.alexandria;
  */
 public class BasicFunction{
 	
-	public enum Type{
+	public static enum Type{
 		SIN, COS, TAN, ARCSIN, ARCOS, ARCTAN, SINH, COSH, TANH, ARSINH, ARCOSH, ARTANH, ABS, CONST, DEGREE, MULTIPLY, EXP, LN
 	}
 	

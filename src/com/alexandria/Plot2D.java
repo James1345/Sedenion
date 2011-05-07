@@ -44,32 +44,48 @@ public class Plot2D extends JPanel {
 		 * Calculate double (actual) value
 		 * divide by scale
 		 * invert y axis
+		 * cast to int.
+		 * 
 		 * shift by origin offset
 		 * 
-		 * cast to int.
+		 * 
 		 */
 		//currently assumes origin is at the centre of the screen
 		xVals = new int[px];
 		yVals = new int[px];
 		for (int i = 0; i < px; i++){
-			xVals[i] = (int)(((xMin + i*xStep)/unitsPerPixel) + (px/2)); 
-			yVals[i] = (int)(-1*(y[i]/unitsPerPixel) + (px/2));
+			xVals[i] = (int)((xMin + i*xStep)/unitsPerPixel) + (px/2); 
+			yVals[i] = (int)(-1*(y[i]/unitsPerPixel)) + (px/2);
 		}
 		
 		//set up gui
-		this.setPreferredSize(new Dimension(px, px));
-		
+		this.setPreferredSize(new Dimension(px, px));		
 	}
 	
 	@Override
 	public void paintComponent(Graphics g){
+		
+		//TODO remove px magic number
+		int px = 300;
+		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(plotColor); //set colour
+		
+		//draw background
+		g2.setColor(bgColor);
+		g2.fillRect(0, 0, px, px);
+	
+		//draw axes
+		g2.setColor(axisColor);
+		g2.drawLine(px/2, 0, px/2, px);
+		g2.drawLine(0, px/2, px, px/2);
+		
+		//draw plot
+		g2.setColor(plotColor);
 		for(int i = 0; i < 299; i++){
 			g2.drawLine(xVals[i], yVals[i], xVals[i+1], yVals[i+1]); //connect the dots
+			System.out.println("" + yVals[i] + "," + yVals[i+1]);
 		}
-		
 	}
 	
 	
