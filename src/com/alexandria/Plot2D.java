@@ -20,20 +20,22 @@ public class Plot2D extends JPanel {
 	
 	//integer representations of position of points
 	private int[] xVals, yVals;
+	private double[] y;
+	
+	//default scale is 10px = 1 unit
+	private double unitsPerPixel = 0.1;
+	
+	//default resolution is 300px x 300px
+	final int px = 300;
 	
 	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 
 		
-		//assume resolution is 300px x 300px
-		final int px = 300;
-		
-		//assume scale is 10px = 1 unit
-		double unitsPerPixel = 0.1;
 		
 		//calculate x step
 		double xStep = (xMax-xMin)/px;
 		
 		//calculate y values
-		double[] y = new double[px];
+		y = new double[px];
 		for(int i = 0; i< px; i++){
 			y[i] = fx.eval(xMin + i*xStep);
 		}
@@ -56,6 +58,7 @@ public class Plot2D extends JPanel {
 		for (int i = 0; i < px; i++){
 			xVals[i] = (int)((xMin + i*xStep)/unitsPerPixel) + (px/2); 
 			yVals[i] = (int)(-1*(y[i]/unitsPerPixel)) + (px/2);
+			
 		}
 		
 		//set up gui
@@ -83,9 +86,27 @@ public class Plot2D extends JPanel {
 		//draw plot
 		g2.setColor(plotColor);
 		for(int i = 0; i < 299; i++){
-			g2.drawLine(xVals[i], yVals[i], xVals[i+1], yVals[i+1]); //connect the dots
-			System.out.println("" + yVals[i] + "," + yVals[i+1]);
+			if(canPlot(i)) //doesn't work :/
+				g2.drawLine(xVals[i], yVals[i], xVals[i+1], yVals[i+1]); //connect the dots
 		}
+	}
+	
+	/**
+	 * A function to test if a given index (i) maps to be a point that can be plotted. (i.e. if it's on the screen)
+	 * Currently assumes origin is centred.
+	 * @param index the index to test.
+	 * @return True if plotable, otherwise false.
+	 */
+	private boolean canPlot(int index){
+		double yLimit = (px/2) * unitsPerPixel;
+		if(y[index] > yLimit
+				|| y[index] < -yLimit
+				|| y[index+1] > yLimit
+				|| y[index+1] < -yLimit)
+			return false;
+		else
+			return true;
+		
 	}
 	
 	
