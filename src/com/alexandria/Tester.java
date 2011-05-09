@@ -14,12 +14,10 @@ public class Tester {
 	 */
 	public static void main(String[] args) {
 		
-		System.out.println(Math.tan(Math.PI/2) == Double.POSITIVE_INFINITY);
-		
-		
-		BasicFunction f1 = new BasicFunction(BasicFunction.Type.TAN); //ln(x)
-		BasicFunction f2 = new BasicFunction(BasicFunction.Type.MULTIPLY, 0); //(x)
-		BasicFunction y = new CompoundFunction(f1, f2, CompoundFunction.Type.SUM); 
+		BasicFunction f1 = new BasicFunction(BasicFunction.Type.DEGREE, 2); 
+		//BasicFunction ff2 = new BasicFunction(BasicFunction.Type.DEGREE, -1);
+		BasicFunction f2 = new NestedFunction(NestedFunction.Type.LN, f1);
+		BasicFunction y = f2;
 		Plot2D plot = new Plot2D(y, -15, 15);
 		
 		JFrame test = new JFrame();

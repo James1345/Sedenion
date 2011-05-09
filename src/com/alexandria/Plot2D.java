@@ -14,19 +14,27 @@ import javax.swing.JPanel;
  */
 public class Plot2D extends JPanel {
 
-	private final static Color bgColor = Color.WHITE;
-	private final static Color axisColor = Color.BLACK;
-	private final static Color plotColor = Color.RED;
+	private static final long serialVersionUID = -1381595546860856585L;
+
+	private Color bgColor = Color.WHITE;
+	private Color axisColor = Color.BLACK;
+	private Color plotColor = Color.RED;
 	
 	//integer representations of position of points
 	private int[] xVals, yVals;
+	
+	//Values of y points. Corresonds to yVals[]
 	private double[] y;
 	
 	//default scale is 10px = 1 unit
 	private double unitsPerPixel = 0.1;
 	
 	//default resolution is 300px x 300px
-	final int px = 300;
+	private int px = 300;
+	
+	//default origin offset = 0, 0
+	/** The amount the origin is shifted from the centre of the screen (measured in same units as Vals)*/
+	private int[] OriginOffset = {0,0};
 	
 	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 
 		
@@ -44,11 +52,13 @@ public class Plot2D extends JPanel {
 		 * calculate plot points
 		 * 
 		 * Calculate double (actual) value
+		 * Offset by OriginOffset (from centre)
+		 * 
 		 * divide by scale
 		 * invert y axis
 		 * cast to int.
 		 * 
-		 * shift by origin offset
+		 * shift origin by half resolution (so if it were not offset it would be central)
 		 * 
 		 * 
 		 */
@@ -67,9 +77,6 @@ public class Plot2D extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g){
-		
-		//TODO remove px magic number
-		int px = 300;
 		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;

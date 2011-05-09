@@ -1,0 +1,16 @@
+<project name="Alexandria" default="compile">
+	<description>
+		Basic ant buildfile
+	</description>
+	<property name="src" location="src/com"/>
+	<property name="bin" location="bin/"/>
+
+
+	<target name="init">
+		<mkdir dir="${bin}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${bin}"/>
+	</target>
+</project>
