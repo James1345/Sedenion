@@ -36,9 +36,8 @@ public class Plot2D extends JPanel {
 	/** The amount the origin is shifted from the centre of the screen (measured in same units as Vals)*/
 	private int[] OriginOffset = {0,0};
 	
-	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 
-		
-		
+	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 			
+
 		//calculate x step
 		double xStep = (xMax-xMin)/px;
 		
