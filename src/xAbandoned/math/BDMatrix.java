@@ -2,8 +2,8 @@ package xAbandoned.math;
 
 import java.math.BigDecimal;
 
-import com.alexandria.math.IllegalMatrixDimensionException;
-import com.alexandria.math.MatrixSizeMissMatchException;
+import com.alexandria.IllegalMatrixDimensionException;
+import com.alexandria.MatrixSizeMissMatchException;
 
 /**
  * A class to handle Matrices. Abandoned

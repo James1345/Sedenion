@@ -1,5 +1,7 @@
 package com.alexandria;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 /**
@@ -14,11 +16,15 @@ public class Tester {
 	 */
 	public static void main(String[] args) {
 		
-		BasicFunction f1 = new BasicFunction(BasicFunction.Type.DEGREE, 2); 
-		//BasicFunction ff2 = new BasicFunction(BasicFunction.Type.DEGREE, -1);
-		BasicFunction f2 = new NestedFunction(NestedFunction.Type.LN, f1);
-		BasicFunction y = f2;
-		Plot2D plot = new Plot2D(y, -15, 15);
+		Function sinX = new Function(){
+			@Override
+			public double eval(double x) {
+				return Math.atan(x);
+			}
+		};
+		
+		Plot2D plot = new Plot2D(sinX, -5, 5);
+		plot.setPreferredSize(new Dimension(300, 300));
 		
 		JFrame test = new JFrame();
 		test.setContentPane(plot);

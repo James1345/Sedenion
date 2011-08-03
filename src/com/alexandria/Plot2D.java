@@ -1,120 +1,129 @@
 package com.alexandria;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JPanel;
 
 /**
- * A first attempt at creating a 2D plot
+ * A Functional Plot2D. No abstract plot yet implemented but this works.
  * @author james
  *
  */
-public class Plot2D extends JPanel {
+public class Plot2D extends JPanel implements ComponentListener{
+	
+	// Instance Variables.
+	private static final long serialVersionUID = -7220817713786168906L;
 
-	private static final long serialVersionUID = -1381595546860856585L;
+	/** The function of x to plot. */
+	protected Function function = null;
+	
+	/** The min and max x Values */
+	protected double xMin = 0, xMax = 0;
 
-	private Color bgColor = Color.WHITE;
-	private Color axisColor = Color.BLACK;
-	private Color plotColor = Color.RED;
-	
-	//integer representations of position of points
-	private int[] xVals, yVals;
-	
-	//Values of y points. Corresonds to yVals[]
-	private double[] y;
-	
-	//default scale is 10px = 1 unit
-	private double unitsPerPixel = 0.1;
-	
-	//default resolution is 300px x 300px
-	private int px = 300;
-	
-	//default origin offset = 0, 0
-	/** The amount the origin is shifted from the centre of the screen (measured in same units as Vals)*/
-	private int[] OriginOffset = {0,0};
-	
-	public Plot2D( BasicFunction fx, double xMin, double xMax ){ 			
-
-		//calculate x step
-		double xStep = (xMax-xMin)/px;
-		
-		//calculate y values
-		y = new double[px];
-		for(int i = 0; i< px; i++){
-			y[i] = fx.eval(xMin + i*xStep);
-		}
-		
-		/*
-		 * calculate plot points
-		 * 
-		 * Calculate double (actual) value
-		 * Offset by OriginOffset (from centre)
-		 * 
-		 * divide by scale
-		 * invert y axis
-		 * cast to int.
-		 * 
-		 * shift origin by half resolution (so if it were not offset it would be central)
-		 * 
-		 * 
-		 */
-		//currently assumes origin is at the centre of the screen
-		xVals = new int[px];
-		yVals = new int[px];
-		for (int i = 0; i < px; i++){
-			xVals[i] = (int)((xMin + i*xStep)/unitsPerPixel) + (px/2); 
-			yVals[i] = (int)(-1*(y[i]/unitsPerPixel)) + (px/2);
-			
-		}
-		
-		//set up gui
-		this.setPreferredSize(new Dimension(px, px));		
-	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		
-		//draw background
-		g2.setColor(bgColor);
-		g2.fillRect(0, 0, px, px);
-	
-		//draw axes
-		g2.setColor(axisColor);
-		g2.drawLine(px/2, 0, px/2, px);
-		g2.drawLine(0, px/2, px, px/2);
-		
-		//draw plot
-		g2.setColor(plotColor);
-		for(int i = 0; i < 299; i++){
-			if(canPlot(i)) //doesn't work :/
-				g2.drawLine(xVals[i], yVals[i], xVals[i+1], yVals[i+1]); //connect the dots
-		}
-	}
+	/** 
+	 * Whether or not to invert the Y axis.
+	 * Default to true (as screen x,y are the inverse of traditional x,y)
+	 * TODO implement this, currently unused.
+	 */
+	protected boolean invertY = true;
 	
 	/**
-	 * A function to test if a given index (i) maps to be a point that can be plotted. (i.e. if it's on the screen)
-	 * Currently assumes origin is centred.
-	 * @param index the index to test.
-	 * @return True if plotable, otherwise false.
+	 * Create a new Plot2D panel.
+	 * @param function
+	 * @param xMin
+	 * @param xMax
 	 */
-	private boolean canPlot(int index){
-		double yLimit = (px/2) * unitsPerPixel;
-		if(y[index] > yLimit
-				|| y[index] < -yLimit
-				|| y[index+1] > yLimit
-				|| y[index+1] < -yLimit)
-			return false;
-		else
-			return true;
+	public Plot2D(Function function, double xMin, double xMax){
 		
+		this.function = function;
+		this.xMin = xMin;
+		this.xMax = xMax;
+		
+		repaint(); // Paint the graph
+		
+		
+		if(null == function){
+			//TODO handle error.
+		}
 	}
 	
 	
+	@Override
+	public void paintComponent(Graphics g) {
+		
+		int width = this.getWidth();
+		int height = this.getHeight();
+		
+		double xStep = (xMax-xMin)/width;
+		
+		java.util.Vector<Double> y = new java.util.Vector<Double>();
+		
+		// Calculate y values.
+		for(double i = xMin; i < xMax; i+=xStep){
+			y.add(new Double(function.eval(i)));
+		}
+		
+		double yMax = -Double.MAX_VALUE;
+		double yMin = Double.MAX_VALUE;
+		for(Double value : y){
+			if(value > yMax) yMax = value;
+			if(value < yMin) yMin = value;
+		}
+		
+		double yStep = (yMax-yMin)/height;
+		
+		// Calculate the offsets for the graph
+		int xOffset = (int) (0+(width/2)-(xMax+xMin)/(2*xStep));
+		
+		int yOffset = (int) (0+(height/2)+(yMax+yMin)/(2*yStep));
+		
+		// Set up graphics object.
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		// Draw Axes
+		g2.setColor(Color.BLACK);
+		g2.drawLine(0, yOffset, width, yOffset);
+		g2.drawLine(xOffset, 0, xOffset, height);
+		
+		// Draw graph
+		g2.setColor(Color.BLUE);
+		for(int i = 0; i < y.size() - 1; i++){
+			
+			// Calculate y position for each x.
+			/*
+			 * Each x value has been mapped onto a pixel, map this onto y by
+			 * - inverting (depending on the value of this.invertY) 
+			 * - dividing by the ystep (how many pixels) 
+			 * - shifting by the offset. 
+			 */
+			
+			int yStart =  ((int) ((invertY ? -1 : 1) * y.get(i)/yStep + yOffset));
+			int yEnd = ((int) ((invertY ? -1 : 1)  * y.get(i+1)/yStep + yOffset));
+			
+			g2.drawLine(i, yStart, i+1, yEnd);
+		}
+	}
+
+
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		this.repaint();
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+
+	@Override
+	public void componentShown(ComponentEvent e) {}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
 	
 }

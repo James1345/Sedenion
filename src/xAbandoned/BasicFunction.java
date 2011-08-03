@@ -1,4 +1,6 @@
-package com.alexandria;
+package xAbandoned;
+
+import com.alexandria.Function;
 
 /**
  * This class represents the lowest level functions that can be applied to a variable x.
@@ -37,7 +39,7 @@ package com.alexandria;
  * @author james
  *
  */
-public class BasicFunction{
+public class BasicFunction implements Function{
 	
 	public static enum Type{
 		SIN, COS, TAN, ARCSIN, ARCOS, ARCTAN, SINH, COSH, TANH, ARSINH, ARCOSH, ARTANH, ABS, CONST, DEGREE, MULTIPLY, EXP, LN
