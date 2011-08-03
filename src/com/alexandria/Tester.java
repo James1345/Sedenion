@@ -19,11 +19,11 @@ public class Tester {
 		Function sinX = new Function(){
 			@Override
 			public double eval(double x) {
-				return Math.atan(x);
+				return x*x*x + 2*x*x + 4*x + 3;
 			}
 		};
 		
-		Plot2D plot = new Plot2D(sinX, -5, 5);
+		Plot2D plot = new Plot2D(sinX, -10, 10);
 		plot.setPreferredSize(new Dimension(300, 300));
 		
 		JFrame test = new JFrame();

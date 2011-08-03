@@ -103,10 +103,17 @@ public class Plot2D extends JPanel implements ComponentListener{
 			 * - shifting by the offset. 
 			 */
 			
-			int yStart =  ((int) ((invertY ? -1 : 1) * y.get(i)/yStep + yOffset));
-			int yEnd = ((int) ((invertY ? -1 : 1)  * y.get(i+1)/yStep + yOffset));
+			// Test plottability
+			if(y.get(i).isInfinite() || y.get(i).isNaN() || y.get(i+1).isInfinite() || y.get(i+1).isNaN()){
+				// Do Nothing.
+			}
+			else{
+				int yStart =  ((int) ((invertY ? -1 : 1) * y.get(i)/yStep + yOffset));
+				int yEnd = ((int) ((invertY ? -1 : 1)  * y.get(i+1)/yStep + yOffset));
 			
-			g2.drawLine(i, yStart, i+1, yEnd);
+				g2.drawLine(i, yStart, i+1, yEnd);
+		
+			}
 		}
 	}
 
