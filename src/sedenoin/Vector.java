@@ -1,4 +1,4 @@
-package com.alexandria;
+package sedenion;
 
 /**
  * A general purpose Vector class.

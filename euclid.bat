@@ -1,1 +1,0 @@
-"C:\Program Files (x86)\Java\jre1.6.0_20\bin\java.exe" -cp bin com.alexandria.euclid.Euclid

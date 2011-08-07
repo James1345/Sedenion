@@ -1,4 +1,4 @@
-package com.alexandria;
+package sedenion;
 
 /**
  * A class to handle 2-dimensional vectors (i.e. vectors in the x,y plane).

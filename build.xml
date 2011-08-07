@@ -1,8 +1,8 @@
-<project name="Alexandria" default="compile">
+<project name="Sedenion" default="compile">
 	<description>
 		Basic ant buildfile
 	</description>
-	<property name="src" location="src/com"/>
+	<property name="src" location="src/"/>
 	<property name="bin" location="bin/"/>
 
 

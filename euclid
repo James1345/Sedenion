@@ -1,2 +1,0 @@
-#!/bin/bash
-java -cp bin:/opt/jruby/lib/jruby.jar com.alexandria.euclid.Euclid
