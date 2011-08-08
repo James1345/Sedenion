@@ -1,9 +1,6 @@
-Euclid/Alexandria are copyright (c) 2011 James McMahon, and are released under
+Sedenion is copyright (c) 2011 James McMahon, and is released under
 the GNU General Public Lisence version 3.0. You may use it, redistribute it, and/or modify
-it under the terbs of this licence. See COPYING.txt
-
-This project uses libraries from the jruby project, see JRUBY_COPYING.txt for 
-relevent copyright/licences, or http://www.jruby.org/ for more information (including source code)
+it under the terbs of this licence. See COPYING
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +14,3 @@ relevent copyright/licences, or http://www.jruby.org/ for more information (incl
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-==========Running Euclid==========
-
-extract all files to a folder
-
-cd to the folder
-
-run the following command:
-	java -jar euclid.jar
