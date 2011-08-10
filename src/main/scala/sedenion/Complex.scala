@@ -49,12 +49,14 @@ class Complex( val re: Double, val im: Double ) {
   */
   def **(that: Any): Complex = {
 	val that2 = parseComplex(that);
-    val r = pow(abs, that2.re)*pow(E, -that2.im*arg); // The Magnitude of the result.
+	val r = pow(abs, that2.re)*pow(E, -that2.im*arg); // The Magnitude of the result.
 	val theta = that2.im*log(abs)+that2.re*arg; // The argument of the result.
 	val real = r*cos(theta); // The real part of the result.
 	val imaginary = r*sin(theta); // The imaginary part of the result.
 	new Complex(real, imaginary);
-    }
+  }
+  
+  def toMatrix : Matrix = new Matrix( this );
   
   def abs = sqrt(re*re + im*im);
   

@@ -80,6 +80,18 @@ public class Matrix implements Cloneable{
 		this.content = array;
 	}
 	
+	/**
+	 * Construct the Matrix representation of a given Complex number.
+	 * 
+	 * @param c The Complex to be converted to a Matrix.
+	 */
+	public Matrix(Complex c) {
+		this.isSquare = true;
+		this.rows = this.columns = 2;
+		double[][] content = { { c.re(), -c.im() }, { c.im(), c.re() } };
+		this.content = content;
+	}
+	
 	/* Class Methods */
 	
 	/**
