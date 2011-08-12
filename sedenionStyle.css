@@ -1,21 +1,30 @@
-body {
-  margin-top: 1.0em;
-  background-color: #856c4f;
-  font-family: Helvetica, Arial, FreeSans, san-serif;
-  color: #ffffff;
+#forkMe{
+	position: absolute; 
+	top: 0; 
+	right: 0; 
+	border: 0;
+	background-image:url(http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png);
+	width:149px;
+	height:149px;
+	background-repeat:no-repeat;
+	background-position:right top;
+	text-indent:-9999px;
 }
-#container {
-  margin: 0 auto;
-  width: 700px;
+
+#zip{ 
+	background-image:url(http://github.com/images/modules/download/zip.png);
+	width:142px;
+	height:141px;
+	background-repeat:no-repeat;
+	background-position:right top;
+	text-indent:-9999px;
 }
-h1 { font-size: 3.8em; color: #7a93b0; margin-bottom: 3px; }
-h1 .small { font-size: 0.4em; }
-h1 a { text-decoration: none }
-h2 { font-size: 1.5em; color: #7a93b0; }
-h3 { text-align: center; color: #7a93b0; }
-a { color: #7a93b0; }
-.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-.download { float: right; }
-pre { background: #000; color: #fff; padding: 15px;}
-hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-.footer { text-align:center; padding-top:30px; font-style: italic; }
+
+#tar{ 
+	background-image:url(http://github.com/images/modules/download/tar.png);
+	width:142px;
+	height:141px;
+	background-repeat:no-repeat;
+	background-position:right top;
+	text-indent:-9999px;
+}
