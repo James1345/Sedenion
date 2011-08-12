@@ -1,6 +1,5 @@
 package sedenion;
 
-import java.lang.Math._;
 /**
   * A class to handle Complex numbers.
   * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a> */
@@ -48,6 +47,9 @@ class Complex( val re: Double, val im: Double ) {
    powers by first constructing a Complex with im=0.
   */
   def **(that: Any): Complex = {
+  
+    import java.lang.Math.{pow, sin, cos, log, E};
+  
 	val that2 = parseComplex(that);
 	val r = pow(abs, that2.re)*pow(E, -that2.im*arg); // The Magnitude of the result.
 	val theta = that2.im*log(abs)+that2.re*arg; // The argument of the result.
@@ -56,13 +58,19 @@ class Complex( val re: Double, val im: Double ) {
 	new Complex(real, imaginary);
   }
   
-  def toMatrix : Matrix = new Matrix( this );
+  val toMatrix : Matrix = new Matrix( this );
   
-  def abs = sqrt(re*re + im*im);
+  val abs = {
+    import java.lang.Math.sqrt;
+    sqrt(re*re + im*im);
+  }
   
-  def arg = atan2(im, re);
+  val arg = {
+    import java.lang.Math.atan2;
+	atan2(im, re);
+  }
   
-  def * = new Complex(re, -im);
+  val * = new Complex(re, -im);
   
   override def toString() = re.toString() + " + i*" + im.toString();
  
@@ -75,6 +83,9 @@ object Complex {
    The other square root can be found by -sqrt(myComplex)
    */
   def sqrtc(c: Complex): Complex = {
+  
+    import java.lang.Math.{sqrt, signum};
+    
 	val re = c.re;
 	val im = c.im;
     val gamma = sqrt((re+sqrt((re*re) + (im*im)))/2);
