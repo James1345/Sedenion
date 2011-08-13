@@ -1,30 +1,17 @@
-#forkMe{
-	position: absolute; 
-	top: 0; 
-	right: 0; 
-	border: 0;
-	background-image:url(http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png);
-	width:149px;
-	height:149px;
-	background-repeat:no-repeat;
-	background-position:right top;
-	text-indent:-9999px;
+.imgLink{
+width:50px;
+height:50px;
+background-size:50px 50px;
+background-repeat:no-repeat;
+text-indent:-9999px;
 }
 
-#zip{ 
-	background-image:url(http://github.com/images/modules/download/zip.png);
-	width:142px;
-	height:141px;
-	background-repeat:no-repeat;
-	background-position:right top;
-	text-indent:-9999px;
+#zip{
+background-image:url("images/zip.png");
+position:relative;
+left:0px; top:0px;
 }
-
-#tar{ 
-	background-image:url(http://github.com/images/modules/download/tar.png);
-	width:142px;
-	height:141px;
-	background-repeat:no-repeat;
-	background-position:right top;
-	text-indent:-9999px;
-}
+#tar{
+background-image:url("images/tar.png");
+position:relative;
+left:50px; top:-66px;}
