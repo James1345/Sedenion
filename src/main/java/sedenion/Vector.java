@@ -33,7 +33,7 @@ public abstract class Vector extends Matrix {
 	 * @param d the number of dimensions to give the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy
 	 */
-	public Vector(int dimensions) throws IllegalMatrixDimensionException {
+	public Vector(int dimensions) {
 		super(makeConstructorArray(dimensions));
 	}
 	
@@ -63,7 +63,7 @@ public abstract class Vector extends Matrix {
 		double acc = 0.0; //create accumulator
 		
 		//Pythagoras' theorem
-		for(double[] row : content){
+		for(double[] row : array){
 			for (double val : row){
 				acc += Math.pow(val, 2);
 			}
@@ -89,7 +89,7 @@ public abstract class Vector extends Matrix {
 		
 		double acc = 0.0; //create accumulator
 		for (int i = 0; i < this.rows; i++){
-			acc += this.getAt(i, 0)*v.getAt(i, 0);
+			acc += this.get(i, 0)*v.get(i, 0);
 		}
 		return acc;
 	}

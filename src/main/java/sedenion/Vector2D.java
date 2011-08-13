@@ -6,7 +6,7 @@ package sedenion;
  * Vectors are a subclass of Matrix. As such, they may either be used as either Vectors or Matrices
  * (as explained in the {@link Vector} class). <br />
  * Vector2D stores both the Cartesian (x, y) and Polar (r, theta) representations of a Vector, which are
- * calculated at creation. It stores them in both the content[][] array (as defined by {@link Matrix}) and
+ * calculated at creation. It stores them in both the array[][] array (as defined by {@link Matrix}) and
  * also as its own public final instance variables (x, y, r and theta).
  * 
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>
@@ -38,11 +38,11 @@ public class Vector2D extends Vector {
 	 * @param y The y value of the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector2D(double x, double y) throws IllegalMatrixDimensionException {
+	public Vector2D(double x, double y)  {
 		super(2); //create Vector of correct dimensions
 		//set x and y
-		this.content[0][0] = this.x = x;
-		this.content[1][0] = this.y = y;
+		this.array[0][0] = this.x = x;
+		this.array[1][0] = this.y = y;
 		this.r = this.magnitude();
 		this.theta = Math.atan2(y, x);
 	}
@@ -61,15 +61,8 @@ public class Vector2D extends Vector {
 	 * @return The Matrix of rotation.
 	 */
 	public static Matrix rotational(double angle){
-		double[][] content = {{Math.cos(angle), -Math.sin(angle)},{Math.sin(angle), Math.cos(angle)}};
-		
-		Matrix ret = null;
-		try {
-			ret = new Matrix(content);
-		} catch (IllegalMatrixDimensionException e) {
-			//unreachable, content is well formed.
-		}
-		return ret;
+		double[][] array = {{Math.cos(angle), -Math.sin(angle)},{Math.sin(angle), Math.cos(angle)}};
+		return new Matrix(array);
 	}
 	
 	/*Instance Methods*/
@@ -91,17 +84,14 @@ public class Vector2D extends Vector {
 	 */
 	public Vector2D rotate(double angle){
 		//create new return vector
-		Vector2D rotated = null;
-		try { 
-			rotated = new Vector2D(0,0);
-		} catch (IllegalMatrixDimensionException e) {/* unreachable block */} 
+		Vector2D rotated = new Vector2D(0,0);
 		/*
 		 * Multiply by rotation matrix.
 		 * Done by hand. More efficient than actually constructing the rotation
 		 * Matrix and then multiplying by it.
 		 */
-		rotated.content[0][0] = Math.cos(angle)*this.content[0][0]-Math.sin(angle)*this.content[1][0]; //new x
-		rotated.content[1][0] = Math.sin(angle)*this.content[0][0]+Math.cos(angle)*this.content[1][0]; //new y
+		rotated.array[0][0] = Math.cos(angle)*this.array[0][0]-Math.sin(angle)*this.array[1][0]; //new x
+		rotated.array[1][0] = Math.sin(angle)*this.array[0][0]+Math.cos(angle)*this.array[1][0]; //new y
 		return rotated;
 	}
 

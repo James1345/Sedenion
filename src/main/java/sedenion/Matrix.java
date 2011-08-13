@@ -20,8 +20,8 @@ public class Matrix implements Cloneable{
 	
 	/* Instance Variables. */
 	
-	/** The actual values held in the matrix, use {@link #getAt(int, int)} to access.*/
-	protected double[][] content;
+	/** The actual values held in the matrix, use {@link #get(int, int)} to access.*/
+	protected double[][] array;
 	
 	/** The number of columns */
 	public final int columns;
@@ -40,10 +40,13 @@ public class Matrix implements Cloneable{
 	 * @param column The column
 	 * @return The value at (row, column), a double
 	 */
-	public double getAt(int row, int column){
-		return content[row][column];
+	public double get(int row, int column){
+		return array[row][column];
 	}
 	
+	public double[][] toArray(){
+		return array;
+	}
 	
 	/**
 	 * Constructor.
@@ -52,20 +55,20 @@ public class Matrix implements Cloneable{
 	 * 
 	 * Content is copied by value so later changes to the array will not affect the Matrix
 	 * 
-	 * @param content The array to be converted into a Matrix.
+	 * @param array The array to be converted into a Matrix.
 	 */
-	public Matrix(double[][] content) throws IllegalMatrixDimensionException {
-		this.isSquare = (this.columns = content[0].length) == (this.rows = content.length); /*set instance variables */
-		this.content = new double[rows][columns];
+	public Matrix(double[][] array) {
+		this.isSquare = (this.columns = array[0].length) == (this.rows = array.length); /*set instance variables */
+		this.array = new double[rows][columns];
 		//copy values and check length is correct (Exception thrown if incorrect
 		try{
 			for(int i = 0; i < rows; i++){
 				for(int j = 0; j < columns; j++){
-					this.content[i][j] = content[i][j];
+					this.array[i][j] = array[i][j];
 				}
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
-			throw new IllegalMatrixDimensionException();
+			throw new IllegalArgumentException();
 		}
 	}
 	
@@ -77,7 +80,7 @@ public class Matrix implements Cloneable{
 		this.rows = dimensions;
 		this.columns = 1;
 		this.isSquare = (rows == 1);
-		this.content = array;
+		this.array = array;
 	}
 	
 	/**
@@ -88,8 +91,8 @@ public class Matrix implements Cloneable{
 	public Matrix(Complex c) {
 		this.isSquare = true;
 		this.rows = this.columns = 2;
-		double[][] content = { { c.re(), -c.im() }, { c.im(), c.re() } };
-		this.content = content;
+		double[][] array = { { c.re(), -c.im() }, { c.im(), c.re() } };
+		this.array = array;
 	}
 	
 	/* Class Methods */
@@ -119,14 +122,7 @@ public class Matrix implements Cloneable{
 		h[rowA] = h[rowB];
 		h[rowB] = swap;
 		
-		//shut compiler up about error that can never be thrown/
-		Matrix ret = null;
-		try {
-			ret = new Matrix(h);
-		} catch (IllegalMatrixDimensionException e) {
-			/* Not possible to encounter */
-		}
-		return ret;
+		return new Matrix(h);
 	}
 	
 	//TODO javadoc
@@ -149,7 +145,7 @@ public class Matrix implements Cloneable{
 	 */
 	public Matrix h(int rowA, int rowB){
 		Matrix h = this.clone(); /* Deep clone the matrix */
-		double[][] newContent = h.content; /* copy contents */
+		double[][] newContent = h.array; /* copy arrays */
 		double[] temp = newContent[rowA]; /* Temporarily store rowA */
 		newContent[rowA] = newContent[rowB]; /* Swap values */
 		newContent[rowB] = temp;
@@ -166,7 +162,7 @@ public class Matrix implements Cloneable{
 	 */
 	public Matrix m(int row, double lambda){
 		Matrix m = this.clone(); /* deep clone matrix */
-		double[][] newContent = m.content; /* extract array for editing */
+		double[][] newContent = m.array; /* extract array for editing */
 		for (int i = 0; i < m.columns; i++){ /* for each value in the row */
 			newContent[row][i]*=lambda; /* multiply each value */
 		}
@@ -187,7 +183,7 @@ public class Matrix implements Cloneable{
 	 */
 	public Matrix f(int rowA, int rowB, double lambda){
 		Matrix f = this.clone();
-		double[][] newContent = f.content; /* copy contents */
+		double[][] newContent = f.array; /* copy arrays */
 		for (int i = 0; i < f.columns; i++){ /* for each value in rowA */
 			newContent[rowA][i]+=newContent[rowB][i]*lambda; /* Add the scaled rowB */
 		}
@@ -224,7 +220,7 @@ public class Matrix implements Cloneable{
 	}
 	
 	/**
-	 * Performs a sum on two columns.
+	 * Performs a sum on two rows.
 	 * 
 	 * This method takes each value in row B, multiplies it by a scale factor (lambda), and then adds
 	 * it to the corresponding value in row 2. The Matrix returned contains these new values in row 2,
@@ -258,10 +254,10 @@ public class Matrix implements Cloneable{
 			throw new MatrixSizeMissMatchException();
 		
 		Matrix added = this.clone(); /* deep clone Matrix */
-		double[][] newContent = added.content; /* Extract contents for editin */
+		double[][] newContent = added.array; /* Extract arrays for editin */
 		for(int i = 0; i < added.rows; i++){ /* For each value */
 			for (int j = 0; j < added.columns; j++){
-				newContent[i][j] += m.getAt(i, j); /* Add the corresponding value from m */
+				newContent[i][j] += m.get(i, j); /* Add the corresponding value from m */
 			}
 		}
 		return added; /* Return matrix with the values added */
@@ -281,10 +277,10 @@ public class Matrix implements Cloneable{
 			throw new MatrixSizeMissMatchException();
 		
 		Matrix minussed = this.clone(); /* deep clone Matrix */
-		double[][] newContent = minussed.content; /* Extract contents for editing */
+		double[][] newContent = minussed.array; /* Extract arrays for editing */
 		for(int i = 0; i < minussed.rows; i++){ /* For each value */
 			for (int j = 0; j < minussed.columns; j++){
-				newContent[i][j] -= m.getAt(i, j); /* Minus the corresponding value from m */
+				newContent[i][j] -= m.get(i, j); /* Minus the corresponding value from m */
 			}
 		}
 		return minussed; /* Return matrix with the values subtracted */
@@ -317,18 +313,12 @@ public class Matrix implements Cloneable{
 			for (int j = 0; j<m.columns; j++){ /* for each column in m */
 				double accumulator = 0;
 				for (int marker = 0; marker < this.columns; marker++){ /* for each pair of values */
-					accumulator += this.getAt(i, marker)*m.getAt(marker, j); /* accumulate total */
+					accumulator += this.get(i, marker)*m.get(marker, j); /* accumulate total */
 				}
 				newContent[i][j] = accumulator; /* put total in correct new position */
 			}
 		}
-		Matrix ret = null;
-		try {
-			ret = new Matrix(newContent);
-		} catch (IllegalMatrixDimensionException e) {
-			//cannot be encountered (as given matrix must be well formed)
-		}
-		return ret;
+		return new Matrix(newContent);
 	}
 	
 	/**
@@ -341,19 +331,13 @@ public class Matrix implements Cloneable{
 	 */
 	public Matrix scale(double f){
 		Matrix scaled = this.clone(); /* deep clone Matrix */
-		double[][] newContent = scaled.content; /* Extract contents for editing */
+		double[][] newContent = scaled.array; /* Extract arrays for editing */
 		for (int i = 0; i<scaled.rows; i++){ /*for each row in this */
 			for (int j = 0; j<scaled.columns; j++){ /* for each column in this */
 				newContent[i][j]*=f;
 			}
 		}
-		Matrix ret = null;
-		try {
-			ret = new Matrix(newContent);
-		} catch (IllegalMatrixDimensionException e) {
-			//cannot be encountered (as given matrix must be well formed)
-		}
-		return ret;
+		return new Matrix(newContent);
 	}
 	
 	//TODO Make det use LU matrix reduction http://en.wikipedia.org/wiki/LU_decomposition
@@ -374,20 +358,20 @@ public class Matrix implements Cloneable{
 		
 		/* For a 1x1 Matrix */
 		if (this.columns == 1)
-			return this.getAt(0, 0);
+			return this.get(0, 0);
 		
 		/* For a 2x2 matrix */
 		if (this.columns == 2)
-			return (this.getAt(0, 0)*this.getAt(1, 1)) - (this.getAt(0,1)*this.getAt(1, 0));
+			return (this.get(0, 0)*this.get(1, 1)) - (this.get(0,1)*this.get(1, 0));
 		
 		/* For an nxn Matrix (where n>2) */
 		double acc = 0; /* Create accumulator */
 		for(int j = 0; j < this.rows; j++){/* In each column */
 			/* Recursively add or subtract ('chess board') the parts of the determinant */
 			if (j%2 == 0)
-				acc += this.getAt(0, j) * this.sub(0,j).det();
+				acc += this.get(0, j) * this.sub(0,j).det();
 			else
-				acc -= this.getAt(0, j) * this.sub(0,j).det();
+				acc -= this.get(0, j) * this.sub(0,j).det();
 		}
 		return acc;
 	}
@@ -405,21 +389,14 @@ public class Matrix implements Cloneable{
 		/* Transpose the matrix */
 		for(int i = 0; i < this.rows; i++){	
 			for(int j = 0; j < this.columns; j++){
-				newContent[j][i] = this.getAt(i, j);
+				newContent[j][i] = this.get(i, j);
 			}
 		}
-		Matrix ret = null;
-		try {
-			ret = new Matrix(newContent);
-		} catch (IllegalMatrixDimensionException e) {
-			//cannot be encountered (as given matrix must be well formed)
-		}
-		return ret;
+		return new Matrix(newContent);
 		
 	}
 	
-	//TODO Reduced row echelon form algorithm.
-	
+
 	/* Utility methods */
 	
 	/**
@@ -430,7 +407,7 @@ public class Matrix implements Cloneable{
 	@Override
 	public String toString(){
 		String returnString = "";
-		for (double[] row : this.content){
+		for (double[] row : this.array){
 			returnString += "( ";
 			for (double num : row){
 				returnString += String.format("%5.2e ", num);
@@ -453,34 +430,12 @@ public class Matrix implements Cloneable{
 	 */
 	@Override
 	protected Matrix clone(){
-		double[][] contentA = this.content;
-		double[][] contentB = new double[contentA.length][contentA[0].length];
-		for (int i = 0; i < contentA.length; i++){
-			System.arraycopy(contentA[i], 0, contentB[i], 0, contentA[0].length);
+		double[][] arrayA = this.array;
+		double[][] arrayB = new double[arrayA.length][arrayA[0].length];
+		for (int i = 0; i < arrayA.length; i++){
+			System.arraycopy(arrayA[i], 0, arrayB[i], 0, arrayA[0].length);
 		}
-		Matrix ret = null;
-		try {
-			ret = new Matrix(contentB);
-		} catch (IllegalMatrixDimensionException e) {
-			//cannot be encountered (as given matrix must be well formed)
-		}
-		return ret;
-	}
-	
-	
-	/* Currently borked */
-	public boolean equals(Matrix m){
-		if(this.columns != m.columns || this.rows != m.rows){ /* check size */
-			return false; 
-		}
-		for (int i = 0; i < this.columns; i++){
-			for (int j =0; j < this.rows; j++){
-				if (this.getAt(i, j) != 0) return true;
-			}
-		}
-		
-		
-		return false;
+		return new Matrix(arrayB);
 	}
 	
 	/**
@@ -491,43 +446,26 @@ public class Matrix implements Cloneable{
 	 * @return The newly formed matrix.
 	 */
 	protected Matrix sub(int row, int column){
-		double[][] newContent = new double[this.columns - 1][this.rows - 1]; /* Construct new content */
+		double[][] newContent = new double[this.columns - 1][this.rows - 1]; /* Construct new array */
 		/* Copy correct values */
 		for (int i = 0; i < row; i++){ /* for each row before row */
 			for (int j = 0; j < column; j++){ /* For each column before column */
-				newContent[i][j] = this.getAt(i, j);
+				newContent[i][j] = this.get(i, j);
 			}
 			for (int j = column + 1; j < this.rows; j++){/* For each column After column */
-				newContent[i][j-1] = this.getAt(i, j);
+				newContent[i][j-1] = this.get(i, j);
 			}
 		}
 		for (int i = row + 1; i < this.columns; i++){ /* for each row after row */
 			for (int j = 0; j < column; j++){ /* For each column before column */
-				newContent[i-1][j] = this.getAt(i, j);
+				newContent[i-1][j] = this.get(i, j);
 			}
 			for (int j = column + 1; j < this.rows; j++){/* For each column After column */
-				newContent[i-1][j-1] = this.getAt(i, j);
+				newContent[i-1][j-1] = this.get(i, j);
 			}
 		}
 		
-		Matrix ret = null;
-		try {
-			ret = new Matrix(newContent);
-		} catch (IllegalMatrixDimensionException e) {
-			//cannot be encountered (as given matrix must be well formed)
-		}
-		return ret;
-	}
-	
-	/**
-	 * Thrown if a user attempts to construct a class with an incorrectly dimensioned array.
-	 * @author James
-	 *
-	 */
-	public class IllegalMatrixDimensionException extends Exception {
-
-		private static final long serialVersionUID = 5860821986265290395L;
-
+		return new Matrix(newContent);
 	}
 	
 	/**
