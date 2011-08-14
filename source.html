@@ -3,45 +3,48 @@
 	<head>
 	  <title>Sedenion | Source Code</title>
 	  <link  rel="stylesheet" type="text/css" href="sedenionStyle.css" />
+	  <link  rel="stylesheet" type="text/css" href="source.css" />
 	</head>
 
 	<body>
 	
 	
 		<nav>
-			<a href="index.html">Home</a>
-			About
-			Download
-			<a href="source.html">Source Code</a>
-		</nav>
-		<div class="title">
-			<h1>Sedenion | Source Code<h1>
-		</div>
-		<div class="sourceLink">
-			<h2>Getting the source</h2>
-				<p>You my browse the source online at the Sedenion <a href="http://github.com/Mithos/Sedenion">github page</a>.
-				<p> You can download the source code in either zip or tar format:</p>
-				<div id="imageLinks">
-					<a href="http://github.com/Mithos/Sedenion/zipball/master" ><p class="imgLink" id="zip">zip</p></a>
-					<a href="http://github.com/Mithos/Sedenion/tarball/master" ><p class="imgLink" id="tar">tar</p></a>
-				</div>
-				<p> Alternitavely, you can download the source using <a href="http://git-scm.com">Git</a> by running: 
-				<samp>$ git clone git://github.com/Mithos/Sedenion</samp>
-			</div>
-		<div class="building">
-			<h2>Compiling the source</h2>
-			<h3>Requiements</h3>
 			<ul>
-				<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/java-se-jdk-7-download-432154.html">Java Developement Kit (JDK)</a></li>
-				<li><a href="https://github.com/harrah/xsbt/wiki">sbt</a></li>
+			<li><a href="index.html">Home</a></li>
+			<li>About</li>
+			<li>Download</li>
+			<li><a href="source.html">Source Code</a></li>
 			</ul>
-			<h3>Building</h3>
-			<ol>
-				<li>Extract the source</li>
-				<li>Open a terminal/command prompt and cd to the directory containing the source</li>
-				<li>Run <samp>$ sbt compile package doc</samp></li>
-				<li>Your finished jar and documentation will be in the new <samp>target/</samp> folder</li>
-			</ol>
+		</nav>
+		<div class="main">
+			<h1>Sedenion | Source Code</h1>
+			<div class="sourceLink">
+				<h2>Getting the source</h2>
+					<p>You my browse the source online at the Sedenion <a href="http://github.com/Mithos/Sedenion">github page</a>.
+					<p> You can download the source code in either zip or tar format:</p>
+					<div id="imageLinks">
+						<a href="http://github.com/Mithos/Sedenion/zipball/master" ><p class="imgLink" id="zip">zip</p></a>
+						<a href="http://github.com/Mithos/Sedenion/tarball/master" ><p class="imgLink" id="tar">tar</p></a>
+					</div>
+					<p> Alternitavely, you can download the source using <a href="http://git-scm.com">Git</a> by running: 
+					<samp>$ git clone git://github.com/Mithos/Sedenion</samp>
+				</div>
+			<div class="building">
+				<h2>Compiling the source</h2>
+				<h3>Requiements</h3>
+				<ul>
+					<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/java-se-jdk-7-download-432154.html">Java Developement Kit (JDK)</a></li>
+					<li><a href="https://github.com/harrah/xsbt/wiki">sbt</a></li>
+				</ul>
+				<h3>Building</h3>
+				<ol>
+					<li>Extract the source</li>
+					<li>Open a terminal/command prompt and cd to the directory containing the source</li>
+					<li>Run <samp>$ sbt compile package doc</samp></li>
+					<li>Your finished jar and documentation will be in the new <samp>target/</samp> folder</li>
+				</ol>
+			</div>
 		</div>
 	</body>
 
