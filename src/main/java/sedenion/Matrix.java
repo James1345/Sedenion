@@ -247,35 +247,30 @@ public class Matrix implements Cloneable{
 	 * Calculates the <a href='http://en.wikipedia.org/wiki/Determinant'>determinant</a> of a square matrix.
 	 * (See link for full explanation of what the determinant is).
 	 * 
-	 * Currently uses the Laplace algorithm and recursion. Not good. need to fix cos this is sloooooow.
+	 * For a 1x1 or 2x2 Matrix this method uses the relavent formula to calculate the determinant as quickly as possible (e.g. for a 2x2 matrix the classic ad-bc is used). For 4x4 or larger the Laplace formula is used (to be replaced with decomposition)
 	 * 
 	 * @return The determinant of this.
 	 * @throws IllegalArgumentException If the matrix is not square.
 	 */
-	/*
 	public double det() {
-		if (!this.isSquare)
-			throw new IllegalArgumentException();
+		if (!this.isSquare) throw new IllegalArgumentException("Matrix must be square to calculate determinant");
 		
 		// For a 1x1 Matrix
-		if (this.columns == 1)
-			return this.get(0, 0);
+		if (1 == cols)return get(0, 0);
 		
 		// For a 2x2 matrix
-		if (this.columns == 2)
-			return (this.get(0, 0)*this.get(1, 1)) - (this.get(0,1)*this.get(1, 0));
-		
+		if (2 == cols) return (get(0, 0)*get(1, 1)) - (get(0,1)*get(1, 0));
+
 		// For an nxn Matrix (where n>2)
 		double acc = 0; //Create accumulator
-		for(int j = 0; j < this.rows; j++){// In each column
+		for(int j = 0; j < rows; j++){// In each column
 			// Recursively add or subtract ('chess board') the parts of the determinant
-			if (j%2 == 0)
-				acc += this.get(0, j) * this.sub(0,j).det();
-			else
-				acc -= this.get(0, j) * this.sub(0,j).det();
+			// Parts are calculate by multiplying the top number of a column (the pivot) by the determinant of the matrix of minors formed by removing the row and column containing the pivot.
+			if (j%2 == 0) acc += get(0, j) * minor(0,j).det();
+			else acc -= get(0, j) * minor(0,j).det();
 		}
 		return acc;
-	}*/
+	}
 	
 	/**
 	 * Transposes a matrix.
@@ -342,32 +337,32 @@ public class Matrix implements Cloneable{
 	 * Constructs a new matrix, removing the row and column containing value (i, j).
 	 * 
 	 * @param row The row to be removed
-	 * @param column The column to be removed
+	 * @param col The col to be removed
 	 * @return The newly formed matrix.
 	 */
-	 /*
-	protected Matrix sub(int row, int column){
-		double[][] newArray = new double[this.columns - 1][this.rows - 1]; // Construct new array
+	public Matrix minor(int row, int col){
+		int newCols = cols-1;
+		double[] newArray = new double[(rows-1)*(newCols)]; // Construct new array
 		// Copy correct values
 		for (int i = 0; i < row; i++){ // for each row before row
-			for (int j = 0; j < column; j++){ // For each column before column
-				newArray[i][j] = this.get(i, j);
+			for (int j = 0; j < col; j++){ // For each col before col
+				newArray[i*newCols + j] = get(i, j);
 			}
-			for (int j = column + 1; j < this.rows; j++){// For each column After column
-				newArray[i][j-1] = this.get(i, j);
+			for (int j = col + 1; j < rows; j++){// For each col After col
+				newArray[i*newCols + j-1] = get(i, j);
 			}
 		}
-		for (int i = row + 1; i < this.columns; i++){ // for each row after row
-			for (int j = 0; j < column; j++){ // For each column before column 
-				newArray[i-1][j] = this.get(i, j);
+		for (int i = row + 1; i < cols; i++){ // for each row after row
+			for (int j = 0; j < col; j++){ // For each col before col 
+				newArray[(i-1)*newCols + j ] = this.get(i, j);
 			}
-			for (int j = column + 1; j < this.rows; j++){//For each column After column
-				newArray[i-1][j-1] = this.get(i, j);
+			for (int j = col + 1; j < rows; j++){//For each col After col
+				newArray[(i-1)*newCols + j - 1] = get(i, j);
 			}
 		}
 		
-		return new Matrix(newArray);
-	}*/
+		return new Matrix(newArray, newCols);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

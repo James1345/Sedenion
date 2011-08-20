@@ -2,12 +2,10 @@ import sedenion._;
 
 object Tester{
   def main(args: Array[String]) {
-    
-	var comp1 = new Complex( 4, 3 );
-	var mat1 = comp1.toMatrix;
-	var mat2 = new Matrix( Array( 2, 4, 6, 5), 2).add(mat1);
+
+	var mat1 = new Matrix( Array( 7, 2, 3, 4, 5, 6, 7, 8, 9), 3)
 	
-	println(mat2)
+	println(mat1.det)
     }
 
 
