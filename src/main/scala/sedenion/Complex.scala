@@ -60,17 +60,11 @@ class Complex( val re: Double, val im: Double ) {
   
   val toMatrix : Matrix = new Matrix( Array(re, -im, im, re), 2 );
   
-  val abs = {
-    import java.lang.Math.sqrt;
-    sqrt(re*re + im*im);
-  }
+  val abs = java.lang.Math.sqrt(re*re + im*im);
   
-  val arg = {
-    import java.lang.Math.atan2;
-	atan2(im, re);
-  }
+  val arg = java.lang.Math.atan2(im, re);
   
-  val * = new Complex(re, -im);
+  def * = new Complex(re, -im); // Don NOT make this a val you end up with an infinite loop on Construction :P
   
   override def toString() = re.toString() + " + i*" + im.toString();
  
