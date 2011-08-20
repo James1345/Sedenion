@@ -52,49 +52,6 @@ public class Matrix implements Cloneable{
 		this.array = array;
 	}
 	
-	/* Class Methods */
-	/* Class methods currently broken */
-	
-	/**
-	 * Swap Matrix.
-	 * 
-	 * This method returns a matrix that, when used to 'left-multiply' a matrix (m), will swap rowA and rowB
-	 * of m (rowA and rowB being the parameters) To be used this matrix must have the same number of
-	 * rows as m does columns.
-	 * 
-	 *  @param size the size of the return matrix (always square, i.e. columns = rows)
-	 *  @param rowA The first row to be swapped.
-	 *  @param rowB The second row to be swapped.
-	 */
-	/*
-	public static Matrix h(int size, int rowA, int rowB){
-		double[][] h = new double[size][size];
-		//construct identity matrix
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				h[i][j] = i==j ? 1 : 0 ;
-			}
-		}
-		
-		//swap rows
-		double[] swap = h[rowA];
-		h[rowA] = h[rowB];
-		h[rowB] = swap;
-		
-		return new Matrix(h);
-	}
-	
-	//TODO javadoc
-	public static Matrix M(int size, int row, double lambda){
-		return null;
-	}
-	
-	//TODO javadoc
-	public static Matrix F(int size, int rowA, int rowB, double lambda){
-		return null;
-	}
-	*/
-	
 	/* Row operations */
 	
 	/**
@@ -284,7 +241,6 @@ public class Matrix implements Cloneable{
 		return scaled;
 	}
 	
-	//TODO Make det use LU matrix reduction http://en.wikipedia.org/wiki/LU_decomposition
 	/**
 	 * Calculates the determinant of a square matrix.
 	 * 
@@ -296,8 +252,8 @@ public class Matrix implements Cloneable{
 	 * @return The determinant of this.
 	 * @throws IllegalArgumentException If the matrix is not square.
 	 */
-	 /*
-	public double det() throws IllegalArgumentException{
+	/*
+	public double det() {
 		if (!this.isSquare)
 			throw new IllegalArgumentException();
 		
@@ -329,18 +285,17 @@ public class Matrix implements Cloneable{
 	 * 
 	 * @return The transposed matrix.
 	 */
-	 /*
 	public Matrix transpose(){
-		double[][] newArray = new double[this.columns][this.rows]; // create new dimensions
+		double[] newArray = new double[cols*rows]; // create new array
 		// Transpose the matrix
-		for(int i = 0; i < this.rows; i++){	
-			for(int j = 0; j < this.columns; j++){
-				newArray[j][i] = this.get(i, j);
+		for(int i = 0; i < rows; i++){	
+			for(int j = 0; j < cols; j++){
+				newArray[j*rows + i] = this.get(i, j);
 			}
 		}
-		return new Matrix(newArray);
+		return new Matrix(newArray, rows);
 		
-	}*/
+	}
 	
 
 	/* Utility methods */
