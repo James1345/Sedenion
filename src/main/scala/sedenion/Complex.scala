@@ -58,7 +58,7 @@ class Complex( val re: Double, val im: Double ) {
 	new Complex(real, imaginary);
   }
   
-  val toMatrix : Matrix = new Matrix( this );
+  val toMatrix : Matrix = new Matrix( Array(re, -im, im, re), 2 );
   
   val abs = {
     import java.lang.Math.sqrt;

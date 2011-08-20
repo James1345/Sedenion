@@ -11,9 +11,7 @@ package sedenion;
  * Cartesian space has dimensions (normally 2 or 3). As such standard matrix
  * methods may be applied (multiplying by or adding specific matrices can represent
  * transformations (rotations, enlargements, translations)) as well as methods
- * specific to Vectors. (This does however leave it as a 2D array, so it is often useful to
- * create methods for specific values (as a vector is a 1D array, but the representation must 
- * be 2D to allow Matrix methods to be used)).
+ * specific to Vectors.
  * <p />
  * This class should be extended to create a Vector of the correct dimensions to
  * avoid clashes with java.util.Vector and to allow for Methods specific to those
@@ -27,29 +25,11 @@ public abstract class Vector extends Matrix {
 	/**
 	 * Vector Constructor
 	 * 
-	 * Constructs a 0 vector with the given number of dimensions.
-	 * <br />
-	 * 
-	 * @param d the number of dimensions to give the vector
-	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy
 	 */
-	public Vector(int dimensions) {
-		super(makeConstructorArray(dimensions));
+	public Vector(double[] array) {
+		super(array, 1);
 	}
-	
-	/**
-	 * creates the array needed for calling the superclass' constructor
-	 * 
-	 * @param dimensions The number of rows for the array
-	 * @return an array that can be used as the arguments in the constructor for {@link #Matrix}
-	 */
-	private static double[][] makeConstructorArray(int dimensions){
-		double[][] ret = new double[dimensions][1];
-		for(int i = 0; i < dimensions; i++){
-			ret[i][0] = 0;
-		}
-		return ret;
-	}
+
 	
 	/**
 	 * The magnitude of a Vector.
@@ -63,10 +43,8 @@ public abstract class Vector extends Matrix {
 		double acc = 0.0; //create accumulator
 		
 		//Pythagoras' theorem
-		for(double[] row : array){
-			for (double val : row){
-				acc += Math.pow(val, 2);
-			}
+		for(double value : array){
+			acc += Math.pow(value, 2);
 		}
 		return Math.pow(acc, 0.5);
 	}
@@ -83,9 +61,9 @@ public abstract class Vector extends Matrix {
 	 * @return The value of the dot product
 	 * @throws ArrayIndexOutOfBoundsException if the Vectors are different lengths. 
 	 */
-	public double dot(Vector v) throws ArrayIndexOutOfBoundsException{
+	public double dot(Vector v) {
 		if (this.rows != v.rows) //check lengths
-			throw new ArrayIndexOutOfBoundsException();
+			throw new IllegalArgumentException("Vector Lengths must match");
 		
 		double acc = 0.0; //create accumulator
 		for (int i = 0; i < this.rows; i++){
@@ -106,9 +84,8 @@ public abstract class Vector extends Matrix {
 	 * is left as an exercise for the reader.
 	 * @param v the vector for which the angle with this is to be calculated
 	 * @return The (acute) angle between the two vectors, in <i>Radians</i>
-	 * @throws ArrayIndexOutOfBoundsException if the vectors are of different dimensions
 	 */
-	public double angle(Vector v)throws ArrayIndexOutOfBoundsException{
+	public double angle(Vector v){
 		return Math.acos(this.dot(v)/(this.magnitude()*v.magnitude()));
 	}
 	

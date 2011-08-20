@@ -38,11 +38,12 @@ public class Vector2D extends Vector {
 	 * @param y The y value of the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector2D(double x, double y)  {
-		super(2); //create Vector of correct dimensions
+	public Vector2D(double[] xy)  {
+		super(xy); //create Vector
+		if(xy.length != 2) throw new IllegalArgumentException("Must have exactly 2 dimensions"); // Check dimensions
 		//set x and y
-		this.array[0][0] = this.x = x;
-		this.array[1][0] = this.y = y;
+		x = xy[0];
+		y = xy[1];
 		this.r = this.magnitude();
 		this.theta = Math.atan2(y, x);
 	}
@@ -61,8 +62,8 @@ public class Vector2D extends Vector {
 	 * @return The Matrix of rotation.
 	 */
 	public static Matrix rotational(double angle){
-		double[][] array = {{Math.cos(angle), -Math.sin(angle)},{Math.sin(angle), Math.cos(angle)}};
-		return new Matrix(array);
+		double[] array = {Math.cos(angle), -Math.sin(angle),Math.sin(angle), Math.cos(angle)};
+		return new Matrix(array, 2);
 	}
 	
 	/*Instance Methods*/
@@ -83,16 +84,15 @@ public class Vector2D extends Vector {
 	 * @return The rotated vector.
 	 */
 	public Vector2D rotate(double angle){
-		//create new return vector
-		Vector2D rotated = new Vector2D(0,0);
 		/*
 		 * Multiply by rotation matrix.
 		 * Done by hand. More efficient than actually constructing the rotation
-		 * Matrix and then multiplying by it.
+		 * Matrix and then multiplying by it. (similar to using a Complex number for rotation)
 		 */
-		rotated.array[0][0] = Math.cos(angle)*this.array[0][0]-Math.sin(angle)*this.array[1][0]; //new x
-		rotated.array[1][0] = Math.sin(angle)*this.array[0][0]+Math.cos(angle)*this.array[1][0]; //new y
-		return rotated;
+		double[] xy = new double[2];
+		xy[0] = Math.cos(angle)*x-Math.sin(angle)*y; //new x
+		xy[1] = Math.sin(angle)*x+Math.cos(angle)*y; //new y
+		return new Vector2D(xy);
 	}
 
 }
