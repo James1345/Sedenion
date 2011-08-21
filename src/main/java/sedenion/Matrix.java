@@ -363,6 +363,38 @@ public class Matrix implements Cloneable{
 		
 		return new Matrix(newArray, newCols);
 	}
+	
+	/**
+	 * Reduces a matrix to row echelon form (also called triangular form) by Gaussian elimination.
+	 *
+	 * @return The matrix once it has been reduced to row-echelon form.
+	 */
+	 //TODO Fix this to work cos it's borked
+	public Matrix toRowEchelonForm() { 
+		Matrix m = clone(); // Clone Matrix so algorithm may be performed in place.
+		int i = 0, j = 0;
+		while ( i < rows && j < cols){
+			// look for larget value in column
+			int maxi = i;
+			for( int k = i+1; k < rows; k++ )
+				if( get(k, j) >  get(maxi, j) ) 
+					maxi = k;
+			if( get(maxi ,j) != 0) {
+				// Swap pivot row into place
+				m = m.swapRows(i, maxi); // m[i,j] now contains m[maxi, j]
+				// Scale pivot row
+				m = m.scaleRow(i, 1/(get(i, j))); //m[i,j] now = 1
+				// fill all lower rows with 0
+				for( int u = i+1; u < rows; u++)
+					m = m.sumRows(u, i, -get(u, j)); // m[u,j] now = 0
+				// next row
+				i++;
+			}
+			//if all rows have 0 in, move to next column
+			j++;
+		}
+		return m; //Return the transformed matrix.
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
