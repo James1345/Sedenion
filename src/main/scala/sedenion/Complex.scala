@@ -5,6 +5,15 @@ package sedenion;
   * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a> */
 class Complex( val re: Double, val im: Double ) {
   
+  // Lazy values, those that may be, but are not always, useful.
+  
+  lazy val toMatrix : Matrix = new Matrix( Array(re, -im, im, re), 2 );
+  
+  lazy val abs = java.lang.Math.sqrt(re*re + im*im);
+  
+  lazy val arg = java.lang.Math.atan2(im, re);
+  
+  lazy val * = new Complex(re, -im); 
   
   /**
   Utility method to turn numeric types into complex numbers for use in other methods.
@@ -28,6 +37,7 @@ class Complex( val re: Double, val im: Double ) {
     val that2 = parseComplex(that);
 	this + (that2 * (-1));
   }
+  
   def unary_- = new Complex(-re, -im);
   
   def *(that: Any):Complex = {
@@ -58,20 +68,6 @@ class Complex( val re: Double, val im: Double ) {
 	new Complex(real, imaginary);
   }
   
-  val toMatrix : Matrix = new Matrix( this );
-  
-  val abs = {
-    import java.lang.Math.sqrt;
-    sqrt(re*re + im*im);
-  }
-  
-  val arg = {
-    import java.lang.Math.atan2;
-	atan2(im, re);
-  }
-  
-  val * = new Complex(re, -im);
-  
   override def toString() = re.toString() + " + i*" + im.toString();
  
 }
@@ -85,11 +81,15 @@ object Complex {
   def sqrtc(c: Complex): Complex = {
   
     import java.lang.Math.{sqrt, signum};
+	// For the purposes of calculating a square root the signum function needs to return 1 if zero, as opposed to the normal 0
+	def signumc( d: Double ) = if (0 == d) 1 else signum(d); //fix signum for use in this context.
     
-	val re = c.re;
-	val im = c.im;
-    val gamma = sqrt((re+sqrt((re*re) + (im*im)))/2);
-	val delta = signum(im)*sqrt((-re+sqrt(re*re + im*im))/2);
+	// Extract values and use common names
+	val x = c.re;
+	val y = c.im;
+	val r = c.abs;
+    val gamma = sqrt((r+x)/2);
+	val delta = signumc(y)*sqrt((r-x)/2);
 	new Complex(gamma, delta);
   }
 }

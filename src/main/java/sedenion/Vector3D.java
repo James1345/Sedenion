@@ -3,6 +3,18 @@ package sedenion;
 //TODO well, everything. Rotations, cross products. so much fun
 public class Vector3D extends Vector {
 	
+	/* Instance vars */
+	/** The x component of this Vector */
+	public final double x;
+	
+	/** The y component of this vector */
+	public final double y;
+	
+	public final double z;
+	
+	/**The magnitude (size) of this vector */
+	public final double r;
+	
 	
 	/**
 	 * Default Constructor.
@@ -14,11 +26,14 @@ public class Vector3D extends Vector {
 	 * @param z The z value of the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector3D(double x, double y, double z) {
-		super(3);
-		this.array[0][0] = x;
-		this.array[1][0] = y;
-		this.array[2][0] = z;
+	public Vector3D(double[] xyz) {
+		super(xyz); //create Vector
+		if(xyz.length != 3) throw new IllegalArgumentException("Must have exactly 3 dimensions"); // Check dimensions
+		//set x, y and z
+		x = xyz[0];
+		y = xyz[1];
+		z = xyz[2];
+		this.r = this.magnitude();
 	}
 	
 	//Instance Methods
