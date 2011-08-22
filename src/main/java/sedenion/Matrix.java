@@ -365,35 +365,47 @@ public class Matrix implements Cloneable{
 	}
 	
 	/**
-	 * Reduces a matrix to row echelon form (also called triangular form) by Gaussian elimination.
+	 * Transforms a matrix to row echelon form (also called triangular form) by Gaussian elimination.
+	 * Optionally transforms it to reduced row echelon form.
 	 *
+	 * @param reduced true to perform Gauss-Jrodan elimination and put matrix to reduced form, false for Gaussian Elimination and only go to row echelon
 	 * @return The matrix once it has been reduced to row-echelon form.
 	 */
-	 //TODO Fix this to work cos it's borked
-	public Matrix toRowEchelonForm() { 
+	protected Matrix toRowEchelonForm(boolean reduced) { 
 		Matrix m = clone(); // Clone Matrix so algorithm may be performed in place.
 		int i = 0, j = 0;
 		while ( i < rows && j < cols){
 			// look for larget value in column
 			int maxi = i;
 			for( int k = i+1; k < rows; k++ )
-				if( get(k, j) >  get(maxi, j) ) 
+				if( m.get(k, j) >  m.get(maxi, j) ) 
 					maxi = k;
-			if( get(maxi ,j) != 0) {
+			if( m.get(maxi ,j) != 0) {
 				// Swap pivot row into place
 				m = m.swapRows(i, maxi); // m[i,j] now contains m[maxi, j]
 				// Scale pivot row
-				m = m.scaleRow(i, 1/(get(i, j))); //m[i,j] now = 1
+				m = m.scaleRow(i, 1/(m.get(i, j))); //m[i,j] now = 1
 				// fill all lower rows with 0
 				for( int u = i+1; u < rows; u++)
-					m = m.sumRows(u, i, -get(u, j)); // m[u,j] now = 0
+					m = m.sumRows(u, i, -m.get(u, j)); // m[u,j] now = 0
+				if (reduced) // If above columns need filling
+					for( int u = i-1; u >= 0; u--)
+					m = m.sumRows(u, i, -m.get(u, j)); // m[u,j] now = 0
 				// next row
 				i++;
 			}
-			//if all rows have 0 in, move to next column
+			// move to next column
 			j++;
 		}
 		return m; //Return the transformed matrix.
+	}
+	
+	public Matrix toRowEchelonForm(){
+		return toRowEchelonForm(false);
+	}
+	
+	public Matrix toReducedRowEchelonForm(){
+		return toRowEchelonForm(true);
 	}
 }
 
