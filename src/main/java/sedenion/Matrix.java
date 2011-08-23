@@ -6,9 +6,6 @@ package sedenion;
  * This class deals with Matrices. A Matrix is a 2D array of numbers, with
  * special rules for performing mathematical operations on them. 
  * <br />
- * The matrix is stored as an array of rows. Therefore, coordinates select the <b>row</b> first,
- * then the column.
- * <br />
  * All instance and class methods return a <b>new</b> Matrix, without modifying any parameters
  * or the Matrix on which the method is called. Assigning these returns to a variable (even the 
  * original) must be done explicitly.

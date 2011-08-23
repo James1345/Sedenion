@@ -38,8 +38,8 @@ public class Vector2D extends Vector {
 	 * @param y The y value of the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector2D(double[] xy)  {
-		super(xy); //create Vector
+	public Vector2D(double x, double y)  {
+		super(new double[] { x, y }); //create Vector
 		if(xy.length != 2) throw new IllegalArgumentException("Must have exactly 2 dimensions"); // Check dimensions
 		//set x and y
 		x = xy[0];
