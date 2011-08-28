@@ -39,11 +39,10 @@ public class Vector2D extends Vector {
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
 	public Vector2D(double x, double y)  {
-		super(new double[] { x, y }); //create Vector
-		if(xy.length != 2) throw new IllegalArgumentException("Must have exactly 2 dimensions"); // Check dimensions
+		super(x, y); //create Vector
 		//set x and y
-		x = xy[0];
-		y = xy[1];
+		this.x = x;
+		this.y = y;
 		this.r = this.magnitude();
 		this.theta = Math.atan2(y, x);
 	}
@@ -89,10 +88,9 @@ public class Vector2D extends Vector {
 		 * Done by hand. More efficient than actually constructing the rotation
 		 * Matrix and then multiplying by it. (similar to using a Complex number for rotation)
 		 */
-		double[] xy = new double[2];
-		xy[0] = Math.cos(angle)*x-Math.sin(angle)*y; //new x
-		xy[1] = Math.sin(angle)*x+Math.cos(angle)*y; //new y
-		return new Vector2D(xy);
+		double x = Math.cos(angle)*this.x-Math.sin(angle)*this.y; //new x
+		double y = Math.sin(angle)*this.x+Math.cos(angle)*this.y; //new y
+		return new Vector2D(x, y);
 	}
 
 }

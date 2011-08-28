@@ -58,11 +58,11 @@ public class Matrix implements Cloneable{
 	 * @return A matrix with rows A and B swapped.
 	 */
 	public Matrix h(int rowA, int rowB){
-		Matrix h = this.clone(); // Deep clone the matrix
-		double[] newArray = h.array; //Extract array
+		Matrix $h = this.clone(); // Deep clone the matrix
+		double[] newArray = $h.array; //Extract array
 		System.arraycopy(array, rowA*cols, newArray, rowB*cols, cols); // Copy rowA into new position
 		System.arraycopy(array, rowB*cols, newArray, rowA*cols, cols); // Copy rowB into new position
-		return h;
+		return $h;
 	}
 	
 	/**
@@ -74,10 +74,10 @@ public class Matrix implements Cloneable{
 	 * @return The new Matrix with the row scaled
 	 */
 	public Matrix m(int row, double lambda){
-		Matrix m = this.clone(); // deep clone matrix
-		double[] newArray = m.array; // extract array
+		Matrix $m = this.clone(); // deep clone matrix
+		double[] newArray = $m.array; // extract array
 		for(int i = row*cols; i < (row+1)*cols; i++) newArray[i]*=lambda;
-		return m; // Return matrix with the row scaled
+		return $m; // Return matrix with the row scaled
 	}
 	
 	/**
@@ -93,11 +93,11 @@ public class Matrix implements Cloneable{
 	 * @return A new matrix, with the columns changed appropriately.
 	 */
 	public Matrix f(int rowA, int rowB, double lambda){
-		Matrix f = this.clone();
-		double[] newArray = f.array; // extract array for editing
+		Matrix $f = this.clone();
+		double[] newArray = $f.array; // extract array for editing
 		for (int i = 0; i < cols; i++) // for each value in rowA
 			newArray[rowA*cols + i]+=array[rowB*cols + i]*lambda ; // Add the scaled rowB
-		return f; // Return matrix with the rows added
+		return $f; // Return matrix with the rows added
 	}
 	
 	/* aliases with nicer names */

@@ -26,16 +26,25 @@ public class Vector3D extends Vector {
 	 * @param z The z value of the vector
 	 * @throws IllegalMatrixDimensionException never, needed to keep compiler happy.
 	 */
-	public Vector3D(double[] xyz) {
-		super(xyz); //create Vector
-		if(xyz.length != 3) throw new IllegalArgumentException("Must have exactly 3 dimensions"); // Check dimensions
+	public Vector3D(double x, double y, double z) {
+		super(x, y, z); //create Vector
 		//set x, y and z
-		x = xyz[0];
-		y = xyz[1];
-		z = xyz[2];
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		this.r = this.magnitude();
 	}
 	
 	//Instance Methods
 
+	public Vector3D cross(Vector3D that){
+	
+		double x = this.y*that.z-this.z*that.y;
+		double y = this.z*that.x-this.x*that.z;
+		double z = this.x*that.y-this.y*that.z;
+		
+		return new Vector3D(x,y,z);
+	
+	}
+	
 }

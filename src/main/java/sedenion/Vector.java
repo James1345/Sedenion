@@ -14,7 +14,7 @@ package sedenion;
  * specific to Vectors.
  * <p />
  * This class should be extended to create a Vector of the correct dimensions to
- * avoid clashes with java.util.Vector and to allow for Methods specific to those
+ * avoid clashes with java.util.Vector and to allow for methods specific to those
  * dimensions (see Vector2D and Vector3D).
  * 
  * @author James McMahon <a href='mailto:james1345@googlemail.com'>{@literal <}james1345@googlemail.com{@literal >}</a>
@@ -26,7 +26,7 @@ public abstract class Vector extends Matrix {
 	 * Vector Constructor
 	 * 
 	 */
-	public Vector(double[] array) {
+	public Vector(double... array) {
 		super(array, 1);
 	}
 
@@ -53,7 +53,7 @@ public abstract class Vector extends Matrix {
 	 * Calculates the dot product of two vectors.
 	 * 
 	 * This method calculates the dot product (also known as the scalar product) of two vectors
-	 * of equal dimensions. This is equal to the sum of the products of corresponding pairs of values
+	 * of equal array. This is equal to the sum of the products of corresponding pairs of values
 	 * in the vectors. (It is also equal to the product of the magnitudes of the vectors and the
 	 * angle between them).
 	 * 
@@ -65,11 +65,11 @@ public abstract class Vector extends Matrix {
 		if (this.rows != v.rows) //check lengths
 			throw new IllegalArgumentException("Vector Lengths must match");
 		
-		double acc = 0.0; //create accumulator
+		double $dot = 0.0; //create accumulator
 		for (int i = 0; i < this.rows; i++){
-			acc += this.get(i, 0)*v.get(i, 0);
+			$dot += this.get(i, 0)*v.get(i, 0);
 		}
-		return acc;
+		return $dot;
 	}
 	
 	/**
