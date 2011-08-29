@@ -73,23 +73,81 @@ class Complex( val re: Double, val im: Double ) {
 }
 
 object Complex {
+  import java.lang.Math._;
+  
+  // For the purposes of calculating a square root the signum function needs to return 1 if zero, as opposed to the normal 0
+  private def signumc( d: Double ) = if (0 == d) 1 else signum(d); //fix signum for use in this context.
+    
+  
   /**
    Returns the positive (primary) complex square root of a Complex Number (even if the number is entirely real or imaginary).
    
    The other square root can be found by -sqrt(myComplex)
    */
   def sqrtc(c: Complex): Complex = {
-  
-    import java.lang.Math.{sqrt, signum};
-	// For the purposes of calculating a square root the signum function needs to return 1 if zero, as opposed to the normal 0
-	def signumc( d: Double ) = if (0 == d) 1 else signum(d); //fix signum for use in this context.
-    
 	// Extract values and use common names
 	val x = c.re;
 	val y = c.im;
 	val r = c.abs;
-    val gamma = sqrt((r+x)/2);
+    	val gamma = sqrt((r+x)/2);
 	val delta = signumc(y)*sqrt((r-x)/2);
 	new Complex(gamma, delta);
+  }
+
+  def sinc(c: Complex): Complex = {
+    val a = c.re;
+    val b = c.im;
+    val alpha = sin(a)*cosh(b);
+    val beta = cos(a)*sinh(b);
+    new Complex(alpha, beta);
+  }
+
+  def cosc(c: Complex): Complex = {
+	val a = c.re;
+	val b = c.im;
+	val alpha = cos(a)*cosh(b);
+	val beta = -1*sin(a)*sinh(b);
+	new Complex(alpha, beta);
+
+  }
+  
+  def tanc(c: Complex): Complex = {
+  
+	val a = 2*c.re;
+	val b = 2*c.im;
+	val alpha = sin(a)/(cos(a)+cosh(b));
+	val beta = sin(b)/(cos(a)+cosh(b));
+	new Complex(alpha, beta);
+  
+  }
+  
+  def sinhc(c: Complex): Complex = {
+  
+	val a = c.re;
+	val b = c.im;
+	val alpha = sinh(a)*cos(b);
+	val beta = cosh(a)*sin(b);
+	new Complex(alpha, beta);
+  
+  }
+  
+  def coshc(c: Complex): Complex = {
+  
+	val a = c.re;
+	val b = c.im;
+	val alpha = cosh(a)*cos(b);
+	val beta = sinh(a)*sin(b);
+	new Complex(alpha, beta);
+  
+  }
+  
+  def tanhc(c: Complex): Complex = {
+  
+	val a = 2*c.re;
+	val b = 2*c.im;
+	val alpha = sinh(a)/(cosh(a)+cos(b));
+	val beta = sin(b)/(cosh(a)+cos(b));
+	new Complex(alpha, beta);
+  
   }
 }

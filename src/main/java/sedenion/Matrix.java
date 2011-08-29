@@ -163,12 +163,12 @@ public class Matrix implements Cloneable{
 	public Matrix add(Matrix that) throws IllegalArgumentException{
 		if (this.cols != that.cols || this.rows != that.rows) throw new IllegalArgumentException("Matrix Dimensions must match");
 		
-		Matrix minussed = this.clone(); // deep clone Matrix
-		double[] newArray = minussed.array; // Extract array for editing
+		Matrix $add = this.clone(); // deep clone Matrix
+		double[] newArray = $add.array; // Extract array for editing
 		for(int i = 0; i < newArray.length; i++){ // For each value
 			newArray[i] += that.array[i];
 		}
-		return minussed; // Return matrix with the values added
+		return $add; // Return matrix with the values added
 	}
 	
 	/**
@@ -183,12 +183,12 @@ public class Matrix implements Cloneable{
 	public Matrix subtract(Matrix that) throws IllegalArgumentException{
 		if (this.cols != that.cols || this.rows != that.rows) throw new IllegalArgumentException("Matrix Dimensions must match");
 		
-		Matrix minussed = this.clone(); // deep clone Matrix
-		double[] newArray = minussed.array; // Extract array for editing
+		Matrix $subtract = this.clone(); // deep clone Matrix
+		double[] newArray = $subtract.array; // Extract array for editing
 		for(int i = 0; i < newArray.length; i++){ // For each value
 			newArray[i] -= that.array[i];
 		}
-		return minussed; // Return matrix with the values subtracted
+		return $subtract; // Return matrix with the values subtracted
 	}
 	
 	/**
