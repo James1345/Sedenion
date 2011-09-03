@@ -90,7 +90,7 @@ public class Complex implements Extendable{
 		double r = c.abs;
     		double gamma = Math.sqrt((r+x)/2);
 		double delta = signumc(y)*Math.sqrt((r-x)/2);
-		return new Complex(gamma, delta);
+		new Complex(gamma, delta);
   	}
 
 	public static Complex sin(Complex c){
@@ -123,6 +123,6 @@ public class Complex implements Extendable{
 		double b = 2*c.im;
 		double alpha = Math.sinh(a)/(Math.cosh(a)+Math.cos(b));
 		double beta = Math.sin(b)/(Math.cosh(a)+Math.cos(b));
-		return new Complex(alpha, beta);
+		new Complex(alpha, beta);
 	}
 }
