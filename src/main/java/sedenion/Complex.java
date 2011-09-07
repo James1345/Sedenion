@@ -1,6 +1,6 @@
 package sedenion;
 
-public class Complex implements Number{
+public class Complex {
 
 
 	// Immutable instance vars
@@ -8,7 +8,7 @@ public class Complex implements Number{
 	public final double re;
 	public final double im;
 
-	// Constructor
+	// Constructors
 	
 	public Complex(double re, double im){
 		this.re = re;
@@ -17,29 +17,29 @@ public class Complex implements Number{
 	
 	// Lazy vals
 
-	protected double abs = Double.NaN;
-	protected Number conj = null;
+	protected Double abs = null;
+	protected Complex conj = null;
 	protected String toString = null;
 	protected Matrix toMatrix = null;
-	protected double arg = Double.NaN;
+	protected Double arg = null;
 
-	public Number add(Number that){
-		return new Complex(re + that.parts(0), im + that.parts(1));
+	public Complex add(Complex that){
+		return new Complex(re + that.re, im + that.im);
 	}
 	
-	public Number subtract(Number that){
-		return new Complex(re - that.parts(0), im - that.parts(1));
+	public Complex subtract(Complex that){
+		return new Complex(re - that.re, im - that.im);
 	}
 
-	public Number multiply(Number that){
-		return new Complex(re*that.parts(0)-im*that.parts(1), re*that.parts(1)+im*that.parts(0));
+	public Complex multiply(Complex that){
+		return new Complex(re*that.re-im*that.im, re*that.im+im*that.re);
 	}
 	
-	public Number divide(Number that){
-		return new Complex((re*that.parts(0) + im*that.parts(1))/(that.parts(0)*that.parts(0) + that.parts(1)*that.parts(1)), (im*that.parts(0) - re*that.parts(1))/(that.parts(0)*that.parts(0) + that.parts(1)*that.parts(1)));
+	public Complex divide(Complex that){
+		return new Complex((re*that.re + im*that.im)/(that.re*that.re + that.im*that.im), (im*that.re - re*that.im)/(that.re*that.re + that.im*that.im));
 	}
 
-	public Number conj(){
+	public Complex conj(){
 		if(null == conj) conj = new Complex(re, -im);
 		return conj;
 	}
@@ -50,40 +50,27 @@ public class Complex implements Number{
 	}
 
 	public double abs(){
-		if(Double.NaN == abs) abs = Math.sqrt(re*re + im*im);
-		return abs; 
+		if(null == abs) abs = new Double(Math.sqrt(re*re + im*im));
+		return abs.doubleValue(); 
 	}
-
 
 
 	/** Raise this to the power of that */
 	public Complex pow(Complex that){
-		double r = Math.pow(abs(), that.parts(0))*Math.pow(Math.E, -that.parts(1)*arg());
-		double theta = that.parts(1)*Math.log(abs())+that.parts(0)*arg();
+		double r = Math.pow(abs(), that.re)*Math.pow(Math.E, -that.im*arg());
+		double theta = that.im*Math.log(abs())+that.re*arg();
 		return new Complex(r*Math.cos(theta), r*Math.sin(theta));		
 	}
 
 
 	public double arg(){
-		if(Double.NaN == arg) arg = Math.atan2(im, re);
-		return arg;
+		if(null == arg) arg = new Double(Math.atan2(im, re));
+		return arg.doubleValue();
 	}
 
 	public String toString(){
 		if(null == toString) toString = "(" + re + ", " + im + ")";
 		return toString;
-	}
-	
-	public double part(int index){
-		switch(index){
-			case 0: return re; break;
-			case 1: return im; break;
-			default: return 0; break;
-		}
-	}
-	
-	public int parts(){
-		return 2;
 	}
 
 	// Static Methods
@@ -95,7 +82,7 @@ public class Complex implements Number{
 			return (int)Math.signum(d);
 	}
 
-	/** Returns the positive (primary) complex square root of a Complex Number (even if the number is entirely real or imaginary).
+	/** Returns the positive (primary) complex square root of a Complex Complex (even if the Complex is entirely real or imaginary).
    		The other square root can be found by -sqrt(myComplex)
   	 */
   	public static Complex sqrt(Complex c)  {

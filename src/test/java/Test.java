@@ -6,15 +6,13 @@ public class Test{
 
 	public static void p(Object... args){
 		for(Object arg : args){
-			System.out.print(arg);
+			System.out.print(arg + " ");
 		}
+		System.out.println();
 	}
 
 	public static void main(String[] args){
-		
-		CayleyDickson<Complex> quat = new CayleyDickson<Complex>(new Complex(1,3), new Complex(1,4));
-		p(quat.conj());
-		
+		p(Complex.sin((new Complex(3,4))));
 	}
 
 }
