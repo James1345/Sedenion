@@ -1,6 +1,6 @@
 package sedenion;
 
-public class Complex implements Extendable{
+public class Complex implements Number{
 
 
 	// Immutable instance vars
@@ -14,27 +14,32 @@ public class Complex implements Extendable{
 		this.re = re;
 		this.im = im;
 	}
-
+	
 	// Lazy vals
 
 	protected double abs = Double.NaN;
-	protected Extendable conj = null;
+	protected Number conj = null;
 	protected String toString = null;
 	protected Matrix toMatrix = null;
 	protected double arg = Double.NaN;
 
-	public Complex add(Complex that){
-		return new Complex(this.re + that.re, this.im + that.im);
+	public Number add(Number that){
+		return new Complex(re + that.parts(0), im + that.parts(1));
 	}
-	public Complex subtract(Complex that){
-		return new Complex(this.re - that.re, this.im - that.im);
-	}
-
-	public Complex multiply(Complex that){
-		return new Complex(this.re*that.re-this.im*that.im, this.re*that.im+this.im*that.re);
+	
+	public Number subtract(Number that){
+		return new Complex(re - that.parts(0), im - that.parts(1));
 	}
 
-	public Extendable conj(){
+	public Number multiply(Number that){
+		return new Complex(re*that.parts(0)-im*that.parts(1), re*that.parts(1)+im*that.parts(0));
+	}
+	
+	public Number divide(Number that){
+		return new Complex((re*that.parts(0) + im*that.parts(1))/(that.parts(0)*that.parts(0) + that.parts(1)*that.parts(1)), (im*that.parts(0) - re*that.parts(1))/(that.parts(0)*that.parts(0) + that.parts(1)*that.parts(1)));
+	}
+
+	public Number conj(){
 		if(null == conj) conj = new Complex(re, -im);
 		return conj;
 	}
@@ -49,14 +54,12 @@ public class Complex implements Extendable{
 		return abs; 
 	}
 
-	public Complex divide(Complex that){
-		return new Complex((re*that.re + im*that.im)/(that.re*that.re + that.im*that.im), (im*that.re - re*that.im)/(that.re*that.re + that.im*that.im));
-	}
+
 
 	/** Raise this to the power of that */
 	public Complex pow(Complex that){
-		double r = Math.pow(abs(), that.re)*Math.pow(Math.E, -that.im*arg());
-		double theta = that.im*Math.log(abs())+that.re*arg();
+		double r = Math.pow(abs(), that.parts(0))*Math.pow(Math.E, -that.parts(1)*arg());
+		double theta = that.parts(1)*Math.log(abs())+that.parts(0)*arg();
 		return new Complex(r*Math.cos(theta), r*Math.sin(theta));		
 	}
 
@@ -67,13 +70,25 @@ public class Complex implements Extendable{
 	}
 
 	public String toString(){
-		if(null == toString) toString = "" + re + " " + im + "i";
+		if(null == toString) toString = "(" + re + ", " + im + ")";
 		return toString;
+	}
+	
+	public double part(int index){
+		switch(index){
+			case 0: return re; break;
+			case 1: return im; break;
+			default: return 0; break;
+		}
+	}
+	
+	public int parts(){
+		return 2;
 	}
 
 	// Static Methods
 	
-	private static int signumc(double d){
+	private static int signum(double d){
 		if(d == 0)
 			return 1;
 		else 
@@ -88,8 +103,8 @@ public class Complex implements Extendable{
 		double x = c.re;
 		double y = c.im;
 		double r = c.abs;
-    		double gamma = Math.sqrt((r+x)/2);
-		double delta = signumc(y)*Math.sqrt((r-x)/2);
+    	double gamma = Math.sqrt((r+x)/2);
+		double delta = signum(y)*Math.sqrt((r-x)/2);
 		return new Complex(gamma, delta);
   	}
 
