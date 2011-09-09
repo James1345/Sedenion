@@ -20,7 +20,7 @@ public class Dual{
 	}
 
 	public double abs(){
-		return Math.sqrt(real);
+		return eal;
 	}
 
 	public String toString(){
