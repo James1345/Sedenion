@@ -372,7 +372,7 @@ public class Matrix implements Cloneable{
 		Matrix m = clone(); // Clone Matrix so algorithm may be performed in place.
 		int i = 0, j = 0;
 		while ( i < rows && j < cols){
-			// look for larget value in column
+			// look for target value in column
 			int maxi = i;
 			for( int k = i+1; k < rows; k++ )
 				if( m.get(k, j) >  m.get(maxi, j) ) 

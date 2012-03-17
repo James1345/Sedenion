@@ -1,6 +1,4 @@
 import sedenion.*;
-import javax.swing.*;
-import java.awt.*;
 
 public class Test{
 
@@ -12,7 +10,8 @@ public class Test{
 	}
 
 	public static void main(String[] args){
-		p(Complex.sin((new Complex(3,4))));
+		p(Integer.numberOfLeadingZeros(5));
+		p(Integer.rotateLeft(5, Integer.numberOfLeadingZeros(5)));
 	}
 
 }
