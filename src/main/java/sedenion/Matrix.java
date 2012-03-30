@@ -1,5 +1,7 @@
 package sedenion;
 
+import java.util.Arrays;
+
 /**
  * A class to handle Matrices.
  * 
@@ -249,7 +251,7 @@ public class Matrix implements Cloneable{
 	 * @return The determinant of this.
 	 * @throws IllegalArgumentException If the matrix is not square.
 	 */
-	public double det() {
+	public double determinant() {
 		if (!this.isSquare) throw new IllegalArgumentException("Matrix must be square to calculate determinant");
 		
 		// For a 1x1 Matrix
@@ -263,8 +265,8 @@ public class Matrix implements Cloneable{
 		for(int j = 0; j < rows; j++){// In each column
 			// Recursively add or subtract ('chess board') the parts of the determinant
 			// Parts are calculate by multiplying the top number of a column (the pivot) by the determinant of the matrix of minors formed by removing the row and column containing the pivot.
-			if (j%2 == 0) acc += get(0, j) * minor(0,j).det();
-			else acc -= get(0, j) * minor(0,j).det();
+			if (j%2 == 0) acc += get(0, j) * minor(0,j).determinant();
+			else acc -= get(0, j) * minor(0,j).determinant();
 		}
 		return acc;
 	}
@@ -397,13 +399,43 @@ public class Matrix implements Cloneable{
 		return m; //Return the transformed matrix.
 	}
 	
+	/**
+	 * Transform this matrix to row echelon form
+	 * @return This matrix in Row echelon form
+	 */
 	public Matrix toRowEchelonForm(){
 		return toRowEchelonForm(false);
 	}
 	
+	/**
+	 * Transform this matrix to reduced row echelon form
+	 * @return This matrix in reduced row echelon form
+	 */
 	public Matrix toReducedRowEchelonForm(){
 		return toRowEchelonForm(true);
 	}
+	
+	
+	// Utilities
+	/**
+	 * Tests for equality. Returns true if the matricies have the same number of elements, and the 
+	 * element at each position are equal.
+	 */
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Matrix){
+			return Arrays.equals(array, ((Matrix) o).array) && cols==((Matrix) o).cols;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode(){
+		return 0;
+	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

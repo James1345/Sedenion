@@ -1,6 +1,15 @@
 package sedenion;
 
-public class Complex {
+/**
+ * A class that represents a Complex number.
+ * 
+ * This class extends Number. However, it overloads many of the default Number methods
+ * with ones that accept Complex arguments, for added efficiency and functionality.
+ * 
+ * @author james
+ *
+ */
+public class Complex extends Number{
 
 
 	// Immutable instance vars
@@ -11,18 +20,18 @@ public class Complex {
 	// Constructors
 	
 	public Complex(double re, double im){
+		super(new Number(re), new Number(im));
 		this.re = re;
 		this.im = im;
 	}
 	
 	// Lazy vals
 
-	protected Double abs = null;
 	protected Complex conj = null;
 	protected String toString = null;
 	protected Matrix toMatrix = null;
 	protected Double arg = null;
-
+	
 	public Complex add(Complex that){
 		return new Complex(re + that.re, im + that.im);
 	}
@@ -39,7 +48,8 @@ public class Complex {
 		return new Complex((re*that.re + im*that.im)/(that.re*that.re + that.im*that.im), (im*that.re - re*that.im)/(that.re*that.re + that.im*that.im));
 	}
 
-	public Complex conj(){
+	@Override
+	public Complex conjugate(){
 		if(null == conj) conj = new Complex(re, -im);
 		return conj;
 	}
@@ -49,16 +59,11 @@ public class Complex {
 		return toMatrix;
 	}
 
-	public double abs(){
-		if(null == abs) abs = new Double(Math.sqrt(re*re + im*im));
-		return abs.doubleValue(); 
-	}
-
 
 	/** Raise this to the power of that */
 	public Complex pow(Complex that){
-		double r = Math.pow(abs(), that.re)*Math.pow(Math.E, -that.im*arg());
-		double theta = that.im*Math.log(abs())+that.re*arg();
+		double r = Math.pow(absolute(), that.re)*Math.pow(Math.E, -that.im*arg());
+		double theta = that.im*Math.log(absolute())+that.re*arg();
 		return new Complex(r*Math.cos(theta), r*Math.sin(theta));		
 	}
 
@@ -69,7 +74,7 @@ public class Complex {
 	}
 
 	public String toString(){
-		if(null == toString) toString = "(" + re + ", " + im + ")";
+		if(null == toString) toString = String.format("(%f, %f)", re, im) ;
 		return toString;
 	}
 
