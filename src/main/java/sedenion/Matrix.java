@@ -224,6 +224,43 @@ public class Matrix implements Cloneable{
 	}
 	
 	/**
+	 * Calculate the Kronecker product of this Matrix and another matrix
+	 * @param that The matrix to multiply this by
+	 * @return The resulting matrix
+	 */
+	public Matrix kronecker(Matrix that){
+		int rows = this.rows * that.rows, cols = this.cols * that.cols;
+		double[] result = new double[rows*cols];
+		
+		Matrix a = this, b=that;
+		int aR=0,aC=0,bR=0,bC=0; // The row and column counters for matrices a and b
+		
+		for(int i = 0; i < result.length; i++){
+			
+			// Calculate result
+			result[i] = a.get(aR, aC)*b.get(bR, bC);
+			
+			// update counters
+			bC = (bC+1)%b.cols; // bC always updates
+			if(0 == bC) { // If we have run off the end of a col of b go to the next aCol
+				aC = (aC+1)%a.cols;
+				if(0==aC){ // If we Have run off the end of an aCol also, we are on to the next row of the result.
+					//increment bRow
+					bR = (bR+1)%b.rows;
+					
+					if(0==bR){ // same drill, increment aRow, don't need to % as it never repeats.
+						aR=aR+1;
+					}
+					
+				}
+			}
+			
+		}
+		
+		return new Matrix(result, cols);
+	}
+	
+	/**
 	 * Scales a matrix.
 	 * 
 	 * Multiplies every value in a matrix by a given value (lambda).
@@ -418,22 +455,27 @@ public class Matrix implements Cloneable{
 	
 	// Utilities
 	/**
-	 * Tests for equality. Returns true if the matricies have the same number of elements, and the 
+	 * Tests for equality. Returns true if the matrices have the same number of elements, and the 
 	 * element at each position are equal.
 	 */
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Matrix){
-			return Arrays.equals(array, ((Matrix) o).array) && cols==((Matrix) o).cols;
+			Matrix o2 = (Matrix)o;
+			return Arrays.equals(array, o2.array) && cols==o2.cols;
 		}
 		else {
 			return false;
 		}
 	}
 	
+	/**
+	 * Overriden hashCode(), consistent with {@link #equals(Object)}
+	 * @return
+	 */
 	@Override
 	public int hashCode(){
-		return 0;
+		return array.hashCode()^cols; //quick hash method
 	}
 	
 }
