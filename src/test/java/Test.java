@@ -1,4 +1,6 @@
-import sedenion.*;
+import org.sedenion.complex.*;
+import org.sedenion.complex.Number;
+import org.sedenion.types.Exact;
 
 public class Test{
 
@@ -10,9 +12,8 @@ public class Test{
 	}
 
 	public static void main(String[] args){
-		Matrix m1 = new Matrix(new double[] {1,2,3,4}, 2);
-		Matrix m2 = new Matrix(new double[] {1,2,3,4}, 2);
-		p(m1.equals(m2));
+		Number n = new Number(new Exact(5,50));
+		System.out.println(n.multiply(new Number(new Exact(4))));
 		
 	}
 

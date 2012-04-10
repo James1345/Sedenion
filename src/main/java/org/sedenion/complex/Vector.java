@@ -1,4 +1,4 @@
-package sedenion;
+package org.sedenion.complex;
 
 /**
  * A general purpose Vector class.

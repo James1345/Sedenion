@@ -1,4 +1,4 @@
-package sedenion;
+package org.sedenion.complex;
 
 /**
  * A class that represents a Complex number.

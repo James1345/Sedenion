@@ -61,6 +61,10 @@ public class Exact implements Comparable<Exact>, Cloneable{
 		return new Exact(n.multiply(multiplicand.n), d.multiply(multiplicand.d));
 	}
 	
+	public Exact multiply(long l){
+		return multiply(new Exact(l));
+	}
+	
 	public Exact divide(Exact divisor){
 		return new Exact(n.multiply(divisor.d), d.multiply(divisor.n));
 	}
@@ -101,6 +105,12 @@ public class Exact implements Comparable<Exact>, Cloneable{
 		else return -1;
 	}
 	
+	/* TODO fix this
+	public Exact sqrt(){
+		return new Exact()
+	}
+	*/
+	
 	/* Conversions */
 	
 	/** Deep clone this Exact */
@@ -111,7 +121,12 @@ public class Exact implements Comparable<Exact>, Cloneable{
 	
 	@Override
 	public String toString(){
-		return String.format("%d/%d", n, d);
+		if(d.equals(BigInteger.ONE)){
+			return n.toString();
+		}
+		else {
+			return String.format("%s/%s", n.toString(), d.toString());
+		}
 	}
 	
 	public Inexact toInexact(){

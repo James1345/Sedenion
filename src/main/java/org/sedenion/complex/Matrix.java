@@ -1,4 +1,4 @@
-package sedenion;
+package org.sedenion.complex;
 
 import java.util.Arrays;
 

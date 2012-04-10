@@ -1,7 +1,8 @@
-package sedenion;
+package org.sedenion.complex;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.sedenion.types.Exact;
 
 public class Number{
 	
@@ -10,13 +11,13 @@ public class Number{
 	
 	// Leaf information
 	protected final boolean isLeaf;
-	protected final double leafVal;
+	protected final Exact leafVal;
 	
 	// Lazy values
-	protected double[] toArray = null;
+	protected Exact[] toArray = null;
 	protected String toString = null;
-	protected double absSqr = -1;
-	protected double abs = -1;
+	protected Exact absSqr = null;
+	protected Exact abs = null;
 	
 	// Tree Stuff
 	
@@ -28,10 +29,10 @@ public class Number{
 		this.children[1] = child1;
 		isLeaf=false;
 		
-		leafVal = 0;
+		leafVal = null;
 	}
 	
-	public Number(double value){
+	public Number(Exact value){
 		this.leafVal = value;		
 		isLeaf=true;
 		
@@ -60,7 +61,7 @@ public class Number{
 	 * 
 	 * @return This Number as an array of values.
 	 */
-	public double[] toArray(){
+	public Exact[] toArray(){
 		
 		if (toArray == null){
 		
@@ -89,7 +90,7 @@ public class Number{
 			
 			list.add(this);
 			Object[] classArray = list.toArray();
-			toArray = new double[classArray.length];
+			toArray = new Exact[classArray.length];
 			for(int i = 0; i < toArray.length; i++){
 				toArray[i] = ((Number)classArray[i]).leafVal;
 			}
@@ -133,7 +134,7 @@ public class Number{
 		
 		// If they are both leaves, sum directly
 		if(isLeaf && that.isLeaf){
-			return new Number(this.leafVal + that.leafVal);
+			return new Number(this.leafVal.add(that.leafVal));
 		} 
 		
 		// They are not both leaves
@@ -161,7 +162,7 @@ public class Number{
 	 */
 	public Number $minus(){
 		if(isLeaf){
-			return new Number(-leafVal);
+			return new Number(leafVal.multiply(-1));
 		}
 		else {
 			return new Number(children[0].$minus(), children[1].$minus());
@@ -198,7 +199,7 @@ public class Number{
 	public Number multiply(Number that){
 		// If they are both leaves
 		if(isLeaf && that.isLeaf){
-			return new Number(this.leafVal * that.leafVal);
+			return new Number(this.leafVal.multiply(that.leafVal));
 		} 
 		
 		// They are not both leaves
@@ -223,21 +224,25 @@ public class Number{
 	/**
 	 * Return the absolute value squared of this Number
 	 */
-	public double absoluteSquared(){
-		if(absSqr == -1)
-			for(double d : toArray())
-				abs+=Math.pow(d, 2);
-		
+	public Exact absoluteSquared(){
+		if(absSqr == null){
+			absSqr = Exact.ZERO;
+			for(Exact d : toArray()){
+				absSqr=absSqr.add(d.pow(2));
+			}
+		}
 		return absSqr;
 	}
 	
 	/**
 	 * Return the absolute value (length) of this Number
 	 */
-	public double absolute(){
-		if(abs == -1) abs = Math.sqrt(absoluteSquared());
+	/* TODO fix this
+	public Exact absolute(){
+		if(abs == null) abs = absoluteSquared().sqrt();
 		return abs;
 	}
+	*/
 	
 	
 }

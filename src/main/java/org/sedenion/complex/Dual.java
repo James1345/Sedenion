@@ -1,4 +1,4 @@
-package sedenion;
+package org.sedenion.complex;
 
 /** A class to represent dual numbers */
 public class Dual{
