@@ -4,14 +4,16 @@ public class Test{
 
 	public static void p(Object... args){
 		for(Object arg : args){
-			System.out.print(arg + " ");
+			System.out.print(arg.toString() + " ");
 		}
 		System.out.println();
 	}
 
 	public static void main(String[] args){
-		p(Integer.numberOfLeadingZeros(5));
-		p(Integer.rotateLeft(5, Integer.numberOfLeadingZeros(5)));
+		Matrix m1 = new Matrix(new double[] {1,2,3,4}, 2);
+		Matrix m2 = new Matrix(new double[] {1,2,3,4}, 2);
+		p(m1.equals(m2));
+		
 	}
 
 }
