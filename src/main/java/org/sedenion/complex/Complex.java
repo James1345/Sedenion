@@ -111,8 +111,9 @@ public class Complex extends Number{
 	public static Complex tan(Complex c){
 		double a = 2*c.re;
 		double b = 2*c.im;
-		double alpha = Math.sin(a)/(Math.cos(a)+Math.cosh(b));
-		double beta = Math.sin(a)/(Math.cos(a)+Math.cosh(b));
+		double d = Math.cos(a) + Math.cosh(b);
+		double alpha = Math.sin(a) / d;
+		double beta = Math.sinh(b) / d;
 		return new Complex(alpha, beta);
 	}
 
@@ -125,11 +126,11 @@ public class Complex extends Number{
 	}
 
 	public static Complex tanh(Complex c) {
-  
 		double a = 2*c.re;
 		double b = 2*c.im;
-		double alpha = Math.sinh(a)/(Math.cosh(a)+Math.cos(b));
-		double beta = Math.sin(b)/(Math.cosh(a)+Math.cos(b));
+		double d = Math.cosh(a) + Math.cos(b);
+		double alpha = Math.sinh(a) / d;
+		double beta = Math.sin(b) / d;
 		return new Complex(alpha, beta);
 	}
 }
